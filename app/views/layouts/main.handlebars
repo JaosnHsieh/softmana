@@ -1,19 +1,37 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" ng-app="app" ng-cloak>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width">
-  <title>{{title }}</title>
-  <link rel="stylesheet" href="/css/style.css">
+     <!-- META -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
+
+    <title>Node/Angular Table App</title>
+
+    <!-- SCROLLS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
+    <link rel="stylesheet" href="./css/style.css"><!-- load bootstrap -->
+    <style>
+        html                    { overflow-y:scroll; }
+        body                    { padding-top:50px; }
+        #todo-list              { margin-bottom:30px; }
+    </style>
+
+    <!-- SPELLS -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><!-- load jquery -->
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.min.js"></script>
+    <link href="./css/xeditable.css" rel="stylesheet">
+    <script src="./js/xeditable.js"></script>
+    <script src="./js/core.1.5.js" ></script>
+
   {{#if ENV_DEVELOPMENT}}
     <script src="http://localhost:35729/livereload.js"></script>
   {{/if}}
 </head>
 <body>
-
+{{> nav}}
 
   {{{body}}}
 
-
-  </body>
+</body>
 </html>
