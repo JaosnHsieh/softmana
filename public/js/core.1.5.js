@@ -16,6 +16,29 @@ app.run(function(editableOptions) {
 
 //editable controller
 app.controller('Ctrl', function($scope, $filter, $q, $http) {
+
+    $http.get('/api/softData').success(function(data) {
+            $scope.softData = data;
+            console.log('load softData successfully!');
+            })
+            .error(function(data){
+            });
+
+    $scope.test = function(){
+        console.log('test11');
+    };
+
+    $scope.softDatas = [];
+
+    $scope.loadSoftData = function() {
+        
+        };
+
+    $scope.user={
+        name:"小謝",
+        age:26
+    }
+
 });
 //mock data
 
