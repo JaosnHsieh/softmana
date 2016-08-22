@@ -3,17 +3,36 @@ var app = angular.module('app', ["xeditable"]);
 
 // app.controler('mainController',function mainController($scope, $http) {   
 // });
-// app.run(function(editableOptions) {
-//   editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
-// });
-app.controller('Ctrl', function($scope) {
-  $scope.users = [
-    {id: 1, name: 'awesome user1', status: 2, group: 4, groupName: 'admin'},
-    {id: 2, name: 'awesome user2', status: undefined, group: 3, groupName: 'vip'},
-    {id: 3, name: 'awesome user3', status: 2, group: null}
-  ]; 
+app.config(function($interpolateProvider) {
+  $interpolateProvider.startSymbol('{[{');
+  $interpolateProvider.endSymbol('}]}');
 });
 
+//style
+app.run(function(editableOptions) {
+  editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
+});
+
+
+//editable controller
+app.controller('Ctrl', function($scope, $filter, $q, $http) {
+});
+//mock data
+
+//end editable controller
+
+
+
+
+
+
+
+
+
+
+
+
+//mainController
 app.controller('mainController', function mainController($scope, $http) {
     $scope.formData = {};
     // when landing on the page, get all papers and show them

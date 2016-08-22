@@ -6,7 +6,7 @@ module.exports = function (app) {
   app.use('/api', router);
 };
 
-router.get('/soft-data', function (req, res, next) {
+router.get('/softData', function (req, res, next) {
   db.Soft_Data.removeAttribute('id'); // don't want an "id" column for this table
 
   db.Soft_Data.findAll().then(function (data) {
