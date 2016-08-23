@@ -35,23 +35,26 @@ router.put('/softData', function (req, res, next) {
       
     
 });
-// update single todo
-router.put('/todo/:id', function(req, res) {
-  models.Todo.find({
-  where: {
-  id: req.params.id
-  }
-  }).then(function(todo) {
-  if(todo){
-    todo.updateAttributes({
-    title: req.body.title,
-    complete: req.body.complete
-    }).then(function(todo) {
-    res.send(todo);
-    });
-  }
-  });
+
+
+router.delete('/softData', function (req, res, next) {
+    
+        var obj = req.body.data;
+        
+        // search for attributes
+        db.Soft_Data.destroy({ where: {IDNo: obj.IDNo} }).then(function(data) {
+          res.send('delete succesffully');
+        // // project will be the first entry of the Projects table with the title 'aProject' || null
+        // data.updateAttributes(obj).then(function(todo) {
+        //                 res.json(todo);
+        //                 console.log('update successfully');
+        //               });
+
+          });
+      
+    
 });
+
 
 
 

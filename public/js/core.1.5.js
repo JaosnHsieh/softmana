@@ -34,9 +34,23 @@ app.controller('softDataCtrl', function($scope, $filter, $q, $http) {
         
         };
 
-        // remove user
+
     $scope.removeSoftData = function(index) {
-        $scope.softData.splice(index, 1);
+
+         $http({ 
+                        method :  'DELETE' , 
+                        url :  '/api/softData' , 
+                        data :  {'data':$scope.softData[index]}, 
+                        headers :  { 'Content-Type' :  'application/json' } 
+                    }).success(function(data){
+
+                        $scope.softData.splice(index, 1);
+                        console.log(data,'update softMana successfully!');
+
+                    });
+        
+
+       
     };
 
     $scope.saveSoftData = function(data,index){};
@@ -58,14 +72,15 @@ app.controller('softDataCtrl', function($scope, $filter, $q, $http) {
 
 
   $scope.saveSoftData = function(data){
-console.table(data);    
                     $http({ 
                         method :  'PUT' , 
                         url :  '/api/softData' , 
                         data :  {'data':data}, 
                         headers :  { 'Content-Type' :  'application/json' } 
                     }).success(function(data){
-                        console.table(data);
+
+                       console.log(data,'update softMana successfully!');
+
                     });
         
     }
