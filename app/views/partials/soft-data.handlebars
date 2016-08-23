@@ -1,36 +1,6 @@
 <div ng-controller="Ctrl">
 
-<form editable-form name="myform">
 
-    <div>
-
-        <span editable-text="user.name">
-            {[{ user.name || 'name' }]}
-        </span>
-
-         <span editable-text="user.age">
-            {[{ user.age || 'age' }]}
-        </span>
-
-          <div>
-      <!-- button to show form -->
-      <button type="button" class="btn btn-default" ng-click="myform.$show()" ng-show="!myform.$visible">
-        Edit
-      </button>
-      <!-- buttons to submit / cancel form -->
-      <span ng-show="myform.$visible">
-        <button type="submit" class="btn btn-primary" ng-disabled="myform.$waiting">
-          Save
-        </button>
-        <button type="button" class="btn btn-default" ng-disabled="myform.$waiting" ng-click="myform.$cancel()">
-          Cancel
-        </button>
-      </span>
-    </div>
-
-    </div>
-
-</form>
 
     <div style="border:2px solid red;">
        papers: <br>
@@ -64,24 +34,40 @@
     <tr ng-repeat="data in softData">
         
       
-
         <td>
-           <span editable-text="data.SOFT_BATCH_NUM" e-form="textBtnForm">
-                 {[{ data.SOFT_BATCH_NUM || 'empty' }]}
-            </span>                       
+            <span editable-text="data.STATUS_TYPE" e-form="rowform">{[{data.STATUS_TYPE}]}</span>
         </td>
-
         <td>
-           <span editable-text="data.STATUS_TYPE" e-form="textBtnForm">
-                 {[{ data.STATUS_TYPE || 'empty' }]}
-            </span>                       
+            <span editable-text="data.SOFT_NAME" e-form="rowform">{[{data.SOFT_NAME}]}</span>
+       
+        </td>
+        <td>
+            <form editable-form name="rowform" ng-show="rowform.$visible" onbeforesave="saveUser($data,user.id)" class="form-buttons form-inline">
+
+                <button type="submit" class="btn btn-primary">
+                    Save
+                </button>
+
+                <button type="button" class="btn btn-default" ng-click="rowform.$cancel()">
+                    Cancel
+                </button>
+                
+            </form>
+
+             <div class="buttons" ng-show="!rowform.$visible">   
+
+                <button ng-click="rowform.$show()" class="btn btn-primary">
+                    Edit
+                </button>
+
+                <!--<button ng-click="removeSoftData($index)" class="btn btn-danger">
+                    Delete
+                </button>-->
+
+            </div>
+
         </td>
         
-        <td>
-            <button class="btn btn-default" ng-click="textBtnForm.$show()" ng-hide="textBtnForm.$visible">
-                edit
-            </button>
-        </td>
 
     </tr>
 

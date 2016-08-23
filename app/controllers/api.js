@@ -9,7 +9,9 @@ module.exports = function (app) {
 router.get('/softData', function (req, res, next) {
   db.Soft_Data.removeAttribute('id'); // don't want an "id" column for this table
 
-  db.Soft_Data.findAll().then(function (data) {
+  db.Soft_Data.findAll({
+    where:{STATUS_TYPE:4}
+  }).then(function (data) {
     
     res.json(data);
     

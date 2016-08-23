@@ -38,6 +38,10 @@ app.controller('Ctrl', function($scope, $filter, $q, $http) {
         name:"小謝",
         age:26
     }
+        // remove user
+    $scope.removeSoftData = function(index) {
+        $scope.softData.splice(index, 1);
+    };
 
 });
 //mock data
