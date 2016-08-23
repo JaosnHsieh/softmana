@@ -15,7 +15,7 @@ app.run(function(editableOptions) {
 
 
 //editable controller
-app.controller('Ctrl', function($scope, $filter, $q, $http) {
+app.controller('softDataCtrl', function($scope, $filter, $q, $http) {
 
     $http.get('/api/softData').success(function(data) {
             $scope.softData = data;
@@ -34,19 +34,45 @@ app.controller('Ctrl', function($scope, $filter, $q, $http) {
         
         };
 
-    $scope.user={
-        name:"小謝",
-        age:26
-    }
         // remove user
     $scope.removeSoftData = function(index) {
         $scope.softData.splice(index, 1);
     };
 
-});
-//mock data
+    $scope.saveSoftData = function(data,index){};
 
-//end editable controller
+    $scope.showStatus = function(softData) {
+    var selected = [];
+    if(softData.STATUS_TYPE) {
+      selected = $filter('filter')($scope.statuses, {value: softData.STATUS_TYPE});
+    }
+    return selected.length ? selected[0].text : 'Not set';
+  };
+
+  $scope.statuses = [
+    {value: 1, text: '選項1'},
+    {value: 2, text: '選項2'},
+    {value: 3, text: '選項3'},
+    {value: 4, text: '選項4'}
+  ]; 
+
+
+  $scope.saveSoftData = function(data){
+console.table(data);    
+                    $http({ 
+                        method :  'PUT' , 
+                        url :  '/api/softData' , 
+                        data :  {'data':data}, 
+                        headers :  { 'Content-Type' :  'application/json' } 
+                    }).success(function(data){
+                        console.table(data);
+                    });
+        
+    }
+
+
+});
+
 
 
 

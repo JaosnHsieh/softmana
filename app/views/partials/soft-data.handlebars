@@ -1,23 +1,15 @@
-<div ng-controller="Ctrl">
+<div ng-controller="softDataCtrl">
 
 
 
-    <div style="border:2px solid red;">
-       papers: <br>
-        {{papers}}
-        {[{1+2}]}
 
-  <a href="#" editable-text="user.name" e-label="User Name">{[{ user.name || 'empty' }]}</a>
-
-
-    </div>
    
   
    <table class="table table-bordered table-hover table-condensed">
     <tr style="font-weight: bold">
-      <td>軟體別</td>
-      <td>軟體編號</td>
-      <td>原軟體編號</td>
+      <td style="width:50px;">軟體別</td>
+      <td style="width:300px;">軟體編號</td>
+      <td style="width:100px;">原軟體編號</td>
       <td>軟體名稱</td>
       <td>數量</td>
       <td>金額</td>
@@ -26,23 +18,31 @@
       <td>保管人</td>
       <td>盤點備註</td>
       <td>處置方式</td>
-      <td>處置方式</td>
       <td>操控鈕</td>
     </tr>
 
 
     <tr ng-repeat="data in softData">
-        
       
         <td>
             <span editable-text="data.STATUS_TYPE" e-form="rowform">{[{data.STATUS_TYPE}]}</span>
         </td>
+
         <td>
             <span editable-text="data.SOFT_NAME" e-form="rowform">{[{data.SOFT_NAME}]}</span>
        
         </td>
+
         <td>
-            <form editable-form name="rowform" ng-show="rowform.$visible" onbeforesave="saveUser($data,user.id)" class="form-buttons form-inline">
+          <!-- editable status (select-local) -->
+            <span editable-select="data.STATUS_TYPE" e-ng-options="s.value as s.text for s in statuses" e-name="status" e-form="rowform" >
+                {[{showStatus(data)}]}
+            </span>
+
+        </td>
+
+        <td>
+            <form editable-form onbeforesave="saveSoftData(data)" name="rowform" ng-show="rowform.$visible"  class="form-buttons form-inline">
 
                 <button type="submit" class="btn btn-primary">
                     Save
@@ -54,11 +54,17 @@
                 
             </form>
 
+              
+
              <div class="buttons" ng-show="!rowform.$visible">   
+
+                 <!-- Edit Button -->
 
                 <button ng-click="rowform.$show()" class="btn btn-primary">
                     Edit
                 </button>
+
+                <!-- Delete Button -->
 
                 <!--<button ng-click="removeSoftData($index)" class="btn btn-danger">
                     Delete
@@ -69,9 +75,7 @@
         </td>
         
 
-    </tr>
-
-
+    </tr> <!-- end of ng repreat -->
 
   </table>
 

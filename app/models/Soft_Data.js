@@ -175,6 +175,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     IDNo: {
+      primaryKey: true,
       type: DataTypes.INTEGER,
       allowNull: false
     },

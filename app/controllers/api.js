@@ -10,13 +10,51 @@ router.get('/softData', function (req, res, next) {
   db.Soft_Data.removeAttribute('id'); // don't want an "id" column for this table
 
   db.Soft_Data.findAll({
-    where:{STATUS_TYPE:4}
+    // attributes: ['SOFT_NAME', 'STATUS_TYPE'],
+    where:{SOFT_USE_TYPE:2}
   }).then(function (data) {
     
     res.json(data);
     
   });
 });
+
+router.put('/softData', function (req, res, next) {
+    
+        var obj = req.body.data;
+        
+        // search for attributes
+        db.Soft_Data.findOne({ where: {IDNo: obj.IDNo} }).then(function(data) {
+        // project will be the first entry of the Projects table with the title 'aProject' || null
+        data.updateAttributes(obj).then(function(todo) {
+                        res.json(todo);
+                        console.log('update successfully');
+                      });
+
+          });
+      
+    
+});
+// update single todo
+router.put('/todo/:id', function(req, res) {
+  models.Todo.find({
+  where: {
+  id: req.params.id
+  }
+  }).then(function(todo) {
+  if(todo){
+    todo.updateAttributes({
+    title: req.body.title,
+    complete: req.body.complete
+    }).then(function(todo) {
+    res.send(todo);
+    });
+  }
+  });
+});
+
+
+
 
 router.get('/menu', function (req, res, next) {
   db.Menu.removeAttribute('id'); // don't want an "id" column for this table
