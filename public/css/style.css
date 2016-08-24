@@ -87,3 +87,6 @@
     background-color: #081452;
   }
 }
+.table tbody tr:hover td, .table tbody tr:hover th {
+    background-color: #a5c6f7;
+}

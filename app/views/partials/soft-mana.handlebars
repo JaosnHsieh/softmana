@@ -1,0 +1,55 @@
+<div ng-controller="softManaCtrl">
+
+
+    <div class="row">
+        <div class="col-sm-6">
+            <h1>
+                <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
+                軟體保管單管理
+
+            </h1>
+        </div>
+
+        <div class="col-sm-2"></div>
+
+        <div class="col-sm-4">
+            <a class="btn btn-default" href="/Soft/Soft_Add.aspx">新增保管單</a>
+            <a class="btn btn-default">移轉單申請</a>
+            <a class="btn btn-default">減損單申請</a>
+        </div>
+   </div>
+  
+   <table class="table  table-hover table-condensed">
+       <thead class="thead-inverse">
+            <tr style="font-weight: bold">
+            <td class="col-sm-1">軟體編號</td> 
+            <td class="col-sm-4">軟體名稱</td> 
+            <td class="col-sm-2">保管單位</td>
+            <td class="col-sm-1">保管人</td>
+            <td class="col-sm-2">啟用日期</td>
+            <td class="col-sm-2">控制項</td>
+            
+            </tr>
+        </thead>
+
+    <tr ng-repeat="data in softData">
+      
+        <td>{[{ data.SNO==null? data.SOFT_BATCH_NUM :data.SNO }]} </td>
+        <td> {[{data.SOFT_NAME}]} </td>
+        <td> {[{data.SOFT_OWN_DEP}]} </td>
+        <td> {[{data.SOFT_OWN_USER}]} </td>
+        <td> {[{data.SOFT_START_DATE | date : 'yyyy-mm-dd'}]} </td>
+        <td>
+            <div class="btn-group">
+                <button class="btn btn-info">增加</button>
+                <button class="btn btn-info">檢閱</button>
+            </div>
+            
+        </td>
+    </tr> <!-- end of ng repreat -->
+
+  </table>
+
+
+
+</div>

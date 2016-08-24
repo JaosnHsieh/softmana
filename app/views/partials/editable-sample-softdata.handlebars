@@ -23,19 +23,19 @@
 
 
     <tr ng-repeat="data in softData">
-      
+      <!-- editable-text="data.STATUS_TYPE"-->
         <td>
-            <span editable-text="data.STATUS_TYPE" e-form="rowform">{[{data.STATUS_TYPE}]}</span>
+            <span editable-text="data.STATUS_TYPE"  e-form="rowform">{[{data.STATUS_TYPE}]}</span>
         </td>
 
         <td>
-            <span editable-text="data.SOFT_NAME" e-form="rowform">{[{data.SOFT_NAME}]}</span>
+            <span editable-textarea="data.SOFT_NAME" e-rows="7" e-cols="40" e-form="rowform">{[{data.SOFT_NAME}]}</span>
        
         </td>
 
         <td>
           <!-- editable status (select-local) -->
-            <span editable-select="data.STATUS_TYPE" e-ng-options="s.value as s.text for s in statuses" e-name="status" e-form="rowform" >
+            <span editable-select="data.STATUS_TYPE" onaftersave="test(data)" e-ng-options="s.value as s.text for s in statuses" e-name="status" e-form="rowform" >
                 {[{showStatus(data)}]}
             </span>
 
@@ -44,12 +44,12 @@
         <td>
             <form editable-form onbeforesave="saveSoftData(data)" name="rowform" ng-show="rowform.$visible"  class="form-buttons form-inline">
 
-                <button type="submit" class="btn btn-primary">
-                    Save
+                <button type="submit" class="btn btn-primary" ng-disabled="rowform.$waiting">
+                    儲存
                 </button>
 
                 <button type="button" class="btn btn-default" ng-click="rowform.$cancel()">
-                    Cancel
+                    取消
                 </button>
                 
             </form>
@@ -61,13 +61,13 @@
                  <!-- Edit Button -->
 
                 <button ng-click="rowform.$show()" class="btn btn-primary">
-                    Edit
+                    編輯
                 </button>
 
                 <!-- Delete Button -->
 
-                <button ng-click="removeSoftData($index)" class="btn btn-danger">
-                    Delete
+                <button ng-click="removeSoftData($index)" class="btn btn-danger" ng-disabled="rowform.$waiting">
+                    刪除
                 </button>
 
             </div>

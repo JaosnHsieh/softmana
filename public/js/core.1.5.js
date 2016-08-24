@@ -14,7 +14,7 @@ app.run(function(editableOptions) {
 });
 
 
-//editable controller
+//editable controller - softDataCtrl start
 app.controller('softDataCtrl', function($scope, $filter, $q, $http) {
 
     $http.get('/api/softData').success(function(data) {
@@ -24,8 +24,8 @@ app.controller('softDataCtrl', function($scope, $filter, $q, $http) {
             .error(function(data){
             });
 
-    $scope.test = function(){
-        console.log('test11');
+    $scope.test = function(data){
+        console.log(data);
     };
 
     $scope.softDatas = [];
@@ -87,6 +87,129 @@ app.controller('softDataCtrl', function($scope, $filter, $q, $http) {
 
 
 });
+
+//// softDataCtrl end
+
+
+
+//editable controller - softManaCtrl start
+app.controller('softManaCtrl', function($scope, $filter, $q, $http) {
+
+    $http.get('/api/softData').success(function(data) {
+            $scope.softData = data;
+            console.log('load softData successfully!');
+            })
+            .error(function(data){
+            });
+
+    $scope.test = function(data){
+        console.log(data);
+    };
+
+    $scope.softDatas = [];
+
+    $scope.loadSoftData = function() {
+        
+        };
+
+
+    $scope.removeSoftData = function(index) {
+
+         $http({ 
+                        method :  'DELETE' , 
+                        url :  '/api/softData' , 
+                        data :  {'data':$scope.softData[index]}, 
+                        headers :  { 'Content-Type' :  'application/json' } 
+                    }).success(function(data){
+
+                        $scope.softData.splice(index, 1);
+                        console.log(data,'update softMana successfully!');
+
+                    });
+        
+
+       
+    };
+
+    $scope.saveSoftData = function(data,index){};
+
+    $scope.showStatus = function(softData) {
+    var selected = [];
+    if(softData.STATUS_TYPE) {
+      selected = $filter('filter')($scope.statuses, {value: softData.STATUS_TYPE});
+    }
+    return selected.length ? selected[0].text : 'Not set';
+  };
+
+  $scope.statuses = [
+    {value: 1, text: '選項1'},
+    {value: 2, text: '選項2'},
+    {value: 3, text: '選項3'},
+    {value: 4, text: '選項4'}
+  ]; 
+
+
+  $scope.saveSoftData = function(data){
+                    $http({ 
+                        method :  'PUT' , 
+                        url :  '/api/softData' , 
+                        data :  {'data':data}, 
+                        headers :  { 'Content-Type' :  'application/json' } 
+                    }).success(function(data){
+
+                       console.log(data,'update softMana successfully!');
+
+                    });
+        
+    }
+
+
+});
+
+//// softmana ctrl end
+
+
+
+
+
+
+//editable controller - softManaCtrl start
+app.controller('softAddCtrl', function($scope, $filter, $http) {
+        
+        $http.get('/api/defOption?tableName=tb_OCP_SOFTDATA&colName=SOFT_USE_TYPE')
+                    .success(function(data) {
+                    
+                    })
+                    .error(function(data){
+                    });
+
+    
+
+        $scope.removeSoftData = function(index) {
+
+                    $http({ 
+                            method :  'DELETE' , 
+                            url :  '/api/softData' , 
+                            data :  {'data':$scope.softData[index]}, 
+                            headers :  { 'Content-Type' :  'application/json' } 
+                        }).success(function(data){
+
+                            $scope.softData.splice(index, 1);
+                            console.log(data,'update softMana successfully!');
+
+                        });
+
+                    
+             
+        };
+
+    
+
+
+});
+
+//// softmana ctrl end
+
 
 
 
