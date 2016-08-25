@@ -1,5 +1,5 @@
 // public/core.js
-var app = angular.module('app', ["xeditable"]);
+var app = angular.module('app', ["xeditable","720kb.datepicker"]);
 
 // app.controler('mainController',function mainController($scope, $http) {   
 // });
@@ -175,15 +175,76 @@ app.controller('softManaCtrl', function($scope, $filter, $q, $http) {
 
 //editable controller - softManaCtrl start
 app.controller('softAddCtrl', function($scope, $filter, $http) {
-        
-        $http.get('/api/defOption?tableName=tb_OCP_SOFTDATA&colName=SOFT_USE_TYPE')
+        $scope.form={};
+        $scope.form.options1 = []; //軟體別
+        $scope.form.options2 = []; //軟體名稱
+        $scope.form.options3 = []; //使用版別
+        $scope.form.options4 = []; //軟體來源
+        $scope.form.options5 = []; //軟體存放裝置
+
+
+
+
+        //取得軟體別選項資料
+        $http.get('/api/defOption?tableName=tb_OCP_SOFTDATA&colName=SOFT_USE_TYPE')               
                     .success(function(data) {
+                    
+                    $scope.form.options1 = data;
+
+                    })
+                    .error(function(data){
+                    });
+
+        //取得軟體名稱選項資料
+        $http.get('/api/softName')               
+                    .success(function(data) {
+                    
+                    $scope.form.options2 = data;
+
+                    })
+                    .error(function(data){
+                    });            
+       
+       //取得使用版別
+       $http.get('/api/defOption?tableName=tb_OCP_SOFTDATA&colName=SOFT_PRODUCT_TYPE')               
+                    .success(function(data) {
+
+                    $scope.form.options3 = data;
+                    
+                    })
+                    .error(function(data){
+                    });    
+       
+       //取得軟體來源
+       
+       $http.get('/api/defOption?tableName=tb_OCP_SOFTDATA&colName=SOFT_SOURCE_TYPE')               
+                    .success(function(data) {
+
+                    $scope.form.options4 = data;
+                    
+                    })
+                    .error(function(data){
+                    });
+       //取得軟體存放媒體
+
+       $http.get('/api/defOption?tableName=tb_OCP_SOFTDATA&colName=SOFT_STORE_MEDIA')               
+                    .success(function(data) {
+
+                    $scope.form.options5 = data;
                     
                     })
                     .error(function(data){
                     });
 
-    
+
+
+
+
+
+
+
+
+
 
         $scope.removeSoftData = function(index) {
 

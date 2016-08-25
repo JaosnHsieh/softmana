@@ -82,17 +82,27 @@ router.get('/defOption',function(req,res){
   var tableName = req.query.tableName;
   var colName = req.query.colName;
   
-  console.log(tableName);
 
   db.def_Option.findAll({
     where:{
        Table_Name:tableName,
        Col_Name:colName
-         },
-    order: '"Option_Value" DESC'
+         }
+         //,order: '"Option_Value" DESC'
   }).then(function(data){
       res.json(data);
   });
+});
+
+
+router.get('/softName',function(req,res,next){
+
+  db.Soft_Name.findAll({
+    //order: '"Soft_Name" ASC'
+  }).then(function(data){
+      res.json(data);
+  });
+
 });
 
 
