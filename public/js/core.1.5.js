@@ -181,8 +181,8 @@ app.controller('softAddCtrl', function($scope, $filter, $http) {
         $scope.form.options3 = []; //使用版別
         $scope.form.options4 = []; //軟體來源
         $scope.form.options5 = []; //軟體存放裝置
-
-
+        $scope.form.options6 = []; //保管單位
+        $scope.form.options7 = []; //保管人
 
 
         //取得軟體別選項資料
@@ -225,6 +225,7 @@ app.controller('softAddCtrl', function($scope, $filter, $http) {
                     })
                     .error(function(data){
                     });
+
        //取得軟體存放媒體
 
        $http.get('/api/defOption?tableName=tb_OCP_SOFTDATA&colName=SOFT_STORE_MEDIA')               
@@ -236,8 +237,41 @@ app.controller('softAddCtrl', function($scope, $filter, $http) {
                     .error(function(data){
                     });
 
+        //取得保管單位
 
+       $http.get('/api/tbDep')               
+                    .success(function(data) {
 
+                    $scope.form.options6 = data;
+                    
+                    })
+                    .error(function(data){
+                    });
+
+        //取得保管人 ( 當 保管單位被選取後 )
+
+        $scope.getOwners = function(){
+            console.log($scope.soft.manaDep);
+            $http.get('/api/adViewSSO?department='+$scope.soft.manaDep)               
+                    .success(function(data) {
+                    
+                    $scope.manager='';
+                    $scope.form.options7 = data;
+
+                    console.log(data); 
+                    
+                    })
+                    .error(function(data){
+                    });
+        };
+
+        $scope.addMultiNames = function(){
+            $scope.soft.names = $scope.soft.name;
+        }
+
+        $scope.updateRealManager = function(){
+            $scope.soft.manager = $scope.form.fakeManager.displayName;
+        }
 
 
 

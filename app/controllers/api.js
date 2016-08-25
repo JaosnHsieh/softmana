@@ -106,6 +106,33 @@ router.get('/softName',function(req,res,next){
 });
 
 
+router.get('/tbDep',function(req,res,next){
+  
+  db.tb_DEP.findAll({
+    // order: '"DEP_NO" ASC'
+  }).then(function(data){
+      res.json(data);
+  });
+
+
+  
+});
+
+
+router.get('/adViewSSO',function(req,res,next){
+
+    db.ad_view_SSO.removeAttribute('id');
+
+  db.ad_view_SSO.findAll({
+    // order: '"DEP_NO" ASC'
+    where : { department: req.query.department }
+  }).then(function(data){
+    console.log(data);
+      res.json(data);
+  });
+  
+});
+
 
 
 
