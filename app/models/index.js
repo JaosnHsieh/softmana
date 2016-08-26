@@ -17,8 +17,10 @@ var sequelize = new Sequelize(config.db.name, config.db.username, config.db.pass
          },
         define: {
         timestamps: false
-        } 
+        },
+        timezone:"+08:00" 
        });
+
  sequelize
   .authenticate()
   .then(function(err) {
@@ -27,6 +29,8 @@ var sequelize = new Sequelize(config.db.name, config.db.username, config.db.pass
   .catch(function (err) {
     console.log('Unable to connect to the database:', err);
   });
+      
+
       
 fs.readdirSync(__dirname).filter(function (file) {
   return (file.indexOf('.') !== 0) && (file !== 'index.js');

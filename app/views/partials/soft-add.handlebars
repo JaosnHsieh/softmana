@@ -1,14 +1,19 @@
 <div ng-controller="softAddCtrl">
+
+    <pre>
     {[{soft | json}]}
-    
-    <form class="">
+    </pre>
+
+    <!--軟體保管單-->
+
+    <form ng-submit="processForm()">
 
         <div class="form-group row">
              <div class="col-sm-2">  
                 <label for="">軟體別</label>
             </div>
             <div class="col-sm-10">
-                 <select name="softWay" class="form-control" ng-model="soft.diff" 
+                 <select name="softWay" class="form-control" ng-model="soft.SOFT_USE_TYPE" 
                  ng-options="o.Option_Value as o.Option_Name for o in form.options1">
                     
                 </select>
@@ -21,12 +26,12 @@
                 <label for="">軟體名稱</label>
             </div>
             <div class="col-sm-10">
-                <select name="softName" class="form-control" ng-model="soft.name" 
+                <select name="softName" class="form-control" ng-model="name" 
                  ng-options="o.Soft_Name as o.Soft_Name for o in form.options2 | orderBy:'Soft_Name' "
                  ng-change="addMultiNames()">                   
                 </select>
 
-               <textarea ng-model="soft.names" class="form-control" rows="5"></textarea>
+               <textarea ng-model="soft.SOFT_NAME" class="form-control" rows="5"></textarea>
 
                  
             </div>
@@ -50,7 +55,7 @@
                 <label for="">版本</label>
             </div>
             <div class="col-sm-10">
-                <input type="text" class="form-control" ng-model="soft.version">
+                <input type="text" class="form-control" ng-model="soft.SOFT_PRODUCT_VERSION">
             </div>
         </div>
 
@@ -59,7 +64,7 @@
                 <label for="">序號</label>
             </div>
             <div class="col-sm-10">
-                <input type="text" class="form-control" ng-model="soft.serialNum">
+                <input type="text" class="form-control" ng-model="soft.SOFT_SERIAL_NUMBER">
             </div>
             
         </div>
@@ -69,7 +74,7 @@
                 <label for="">功能</label>
             </div>
             <div class="col-sm-6">
-                <input type="text" class="form-control" ng-model="soft.functions">
+                <input type="text" class="form-control" ng-model="soft.SOFT_FUNCTION_TYPE">
             </div>
             
         </div>
@@ -79,7 +84,7 @@
                 <label for="">使用版別</label>
             </div>
             <div class="col-sm-6">
-                <select name="userWay" class="form-control" ng-model="soft.usingVersion" 
+                <select name="userWay" class="form-control" ng-model="soft.SOFT_PRODUCT_TYPE" 
                  ng-options="o.Option_Value as o.Option_Name for o in form.options3">
                     
                 </select>
@@ -94,7 +99,7 @@
                 <label for="">適用軟、硬體環境</label>
             </div>
             <div class="col-sm-10">
-                <textarea  class="form-control" ng-model="soft.usingEnv"> </textarea>
+                <textarea  class="form-control" ng-model="soft.SOFT_ENVIRONMENT"> </textarea>
             </div>
             <div class="col-sm-4">
                 
@@ -106,7 +111,7 @@
                 <label for="">使用者數</label>
             </div>
             <div class="col-sm-6">
-                <input type="text" class="form-control" ng-model="usingNum">
+                <input type="text" class="form-control" ng-model="soft.SOFT_USING_COUNT">
             </div>
             <div class="col-sm-4">
                 
@@ -118,7 +123,7 @@
                 <label for="">數量</label>
             </div>
             <div class="col-sm-6">
-                <input type="text" class="form-control" ng-model="soft.numbers">
+                <input type="text" class="form-control" ng-model="soft.SOFT_AVALIBLE_COUNT">
             </div>
             <div class="col-sm-4">
                 
@@ -130,13 +135,13 @@
                 <label for="">軟體來源</label>
             </div>
             <div class="col-sm-10">
-                <select name="soft" class="form-control" ng-model="soft.source" 
+                <select name="soft" class="form-control" ng-model="soft.SOFT_SOURCE_TYPE" 
                  ng-options="o.Option_Value as o.Option_Name for o in form.options4 | orderBy:'Option_Value'">
                     
                 </select>
                 <div ng-show="soft.source==7">
                     <label>來源</label>
-                    <input type="text" class="form-control" ng-model="soft.otherSource">
+                    <input type="text" class="form-control" ng-model="soft.SOFT_SOURCE_TYPE_OTHER">
                 </div>
             </div>
             <div class="col-sm-4">
@@ -149,7 +154,7 @@
                 <label for="">來源單位</label>
             </div>
             <div class="col-sm-6">
-                <input type="text" class="form-control" placeholder="應用軟體請輸入建置廠商名稱">
+                <input ng-model="soft.SOFT_SOURCE_DEP" type="text" class="form-control" placeholder="應用軟體請輸入建置廠商名稱">
             </div>
             <div class="col-sm-4">
                 
@@ -161,7 +166,7 @@
                 <label for="">軟體存放媒體</label>
             </div>
             <div class="col-sm-10">
-                <select name="soft" class="form-control" ng-model="soft.softStorage" 
+                <select name="soft" class="form-control" ng-model="soft.SOFT_STORE_MEDIA" 
                  ng-options="o.Option_Value as o.Option_Name for o in form.options5 | orderBy:'Option_Value'">
                     
                 </select>
@@ -176,7 +181,7 @@
                 <label for="">相關文件手冊名稱及數量</label>
             </div>
             <div class="col-sm-6">
-                <input type="text" class="form-control" ng-model="soft.relatedNamesAndNum">
+                <input type="text" class="form-control" ng-model="soft.SOFT_DOCUMENT">
             </div>
             <div class="col-sm-4">
                 
@@ -188,7 +193,7 @@
                 <label for="">存放媒體數量</label>
             </div>
             <div class="col-sm-6">
-                <input type="text" class="form-control" ng-model="soft.storageNum">
+                <input type="text" class="form-control" ng-model="soft.SOFT_STORE_MEDIA_COUNT">
             </div>
             <div class="col-sm-4">
                 
@@ -201,7 +206,7 @@
                 <label for="">費用</label>
             </div>
             <div class="col-sm-6">
-                <input type="text" class="form-control" ng-model="soft.expense">
+                <input type="text" class="form-control" ng-model="soft.SOFT_TOTAL_COST">
             </div>
             <div class="col-sm-4">
             </div>
@@ -212,7 +217,7 @@
                 <label for="">月租金</label>
             </div>
             <div class="col-sm-6">
-                <input type="text" class="form-control" ng-model="month.money">
+                <input type="text" class="form-control" ng-model="soft.SOFT_RENT_COST">
             </div>
             <div class="col-sm-4">
             </div>
@@ -226,7 +231,7 @@
             <div class="col-sm-3">
                 <datepicker date-format="yyyy/MM/dd" selector="form-control">
                     <div class="input-group">
-                        <input class="form-control" placeholder="選擇日期" ng-model="soft.startDate"/>
+                        <input class="form-control" placeholder="選擇日期" ng-model="soft.SOFT_START_DATE"/>
                         <span class="input-group-addon" style="cursor: pointer">
                         <i class="fa fa-lg fa-calendar"></i>
                         </span>
@@ -242,7 +247,7 @@
                 <label for="">備註</label>
             </div>
             <div class="col-sm-10">
-                <textarea class="form-control" rows="5" ng-model="soft.comment"></textarea>
+                <textarea class="form-control" rows="5" ng-model="soft.SOFT_COMMENT"></textarea>
             </div>
             
         </div>
@@ -250,39 +255,41 @@
         
 
         <div class="form-group row">
-             <div class="col-sm-2">  
-                <label for="">保管單位</label>
-            </div>
-            <div class="col-sm-3">
-                <select name="soft" class="form-control" ng-model="soft.manaDep" 
-                 ng-options="o.DEP_NAME as o.DEP_NAME for o in form.options6 | orderBy:'DEP_NO'"
-                 ng-change="getOwners()">                   
-                </select>
-            </div>
-                 
-            <div class="col-sm-1">
-                <label for="">保管人</label>
-            </div>
 
-            <div class="col-sm-5">
-                <div class="row">
-
-                    <div class="col-sm-5">
-                        <select name="soft" class="form-control" ng-model="form.fakeManager" 
-                            ng-options="o.displayName for o in form.options7"
-                            ng-change="updateRealManager()">
-                        </select>
-                    </div>
-
-                    <div class="col-sm-7">
+                <div class="col-sm-2">  
+                    <label for="">保管單位</label>
+                </div>
+                
+                <div class="col-sm-3">
+                    <select name="soft" class="form-control" ng-model="soft.SOFT_OWN_DEP" 
+                    ng-options="o.DEP_NAME as o.DEP_NAME for o in form.options6 | orderBy:'DEP_NO'"
+                    ng-change="getOwners((form.options6|filter:{ DEP_NAME:soft.manaDep })[0].DEP_NO)">                   
+                    </select>
+                </div>
                     
-                        <input class="form-control" ng-model="soft.manager"/>
-                    
-                    </div>   
+                <div class="col-sm-1">
+                    <label for="">保管人</label>
+                </div>
 
-                </div>  
+                <div class="col-sm-5">
+                    <div class="row">
 
-            </div>
+                        <div class="col-sm-5">
+                            <select name="soft" class="form-control" ng-model="form.fakeManager" 
+                                ng-options="o.displayName for o in form.options7"
+                                ng-change="updateRealManager()">
+                            </select>
+                        </div>
+
+                        <div class="col-sm-7">
+                        
+                            <input class="form-control" ng-model="soft.SOFT_OWN_USER"/>
+                        
+                        </div>   
+
+                    </div>  
+                </div>
+        </div>
 
         <div class="form-group row">
              <div class="col-sm-5">  
@@ -299,20 +306,62 @@
 
 
         <div class="form-group row">
-             <div class="col-sm-4">  
+             <div class="col-sm-2">  
             </div>
-            <div class="col-sm-4">
-                <button class="btn btn-lg btn-primary">
-                    新增建檔
-                </button>
+            <div class="col-sm-8">
+                <input type="submit" style="width:20em; height:5em;" class="btn btn-info" value="新增建檔">
+                    
+                </input>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-2">
                  
             </div>
         </div>
 
 
     </form>
+
+    <!--軟體保管單 編輯 end-->
+
+
+
+    <!--軟體保管單 異動-->
+
+        <table class="table table-border">
+
+            <thead>
+                <tr>
+                    <td>處理日期</td>
+                    <td>保管單位</td>
+                    <td>保管人</td>
+                    <td>使用單位</td>
+                    <td>使用人</td>
+                    <td>版本</td>
+                    <td>費用</td>
+                    <td>數量</td>
+                    <td>來源</td>
+                    <td>備註</td>
+                    
+                </tr>
+            </thead>
+
+            <tbody>
+                 <tr ng-repeat="r in changeRecords">
+                    <td>{[{r.date}]}</td>
+                    <td>{[{}]}</td>
+                    <td>{[{}]}</td>
+                    <td>{[{}]}</td>
+                    <td>{[{}]}</td>
+                    <td>{[{}]}</td>
+                    <td>{[{}]}</td>
+                    <td>{[{}]}</td>
+                    <td>{[{}]}</td>
+                    <td>{[{}]}</td>
+                    
+                </tr>
+            </tbody>
+
+        </table>
 
 
 </div>

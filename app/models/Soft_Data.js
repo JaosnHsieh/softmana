@@ -177,7 +177,8 @@ module.exports = function(sequelize, DataTypes) {
     IDNo: {
       primaryKey: true,
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      autoIncrement: true
     },
     傳票號碼: {
       type: DataTypes.STRING,

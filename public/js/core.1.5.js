@@ -175,6 +175,13 @@ app.controller('softManaCtrl', function($scope, $filter, $q, $http) {
 
 //editable controller - softManaCtrl start
 app.controller('softAddCtrl', function($scope, $filter, $http) {
+    
+        //軟體保管單異動
+            $scope.changeRecords = [
+                {date:'123' , name:'myname'},
+                {date:'1234' , name:'mary'}
+            ];
+        //軟體保管單異動 結束    
         $scope.form={};
         $scope.form.options1 = []; //軟體別
         $scope.form.options2 = []; //軟體名稱
@@ -250,15 +257,18 @@ app.controller('softAddCtrl', function($scope, $filter, $http) {
 
         //取得保管人 ( 當 保管單位被選取後 )
 
-        $scope.getOwners = function(){
-            console.log($scope.soft.manaDep);
+        $scope.getOwners = function(depno){
+            
+            $scope.soft.SOFT_OWN_DEPNO = depno;
+
             $http.get('/api/adViewSSO?department='+$scope.soft.manaDep)               
                     .success(function(data) {
                     
-                    $scope.manager='';
+                    delete $scope.soft.manager;
+
                     $scope.form.options7 = data;
 
-                    console.log(data); 
+                   
                     
                     })
                     .error(function(data){
@@ -266,11 +276,27 @@ app.controller('softAddCtrl', function($scope, $filter, $http) {
         };
 
         $scope.addMultiNames = function(){
-            $scope.soft.names = $scope.soft.name;
+            $scope.soft.SOFT_NAME = $scope.name;
         }
 
         $scope.updateRealManager = function(){
-            $scope.soft.manager = $scope.form.fakeManager.displayName;
+            
+            $scope.soft.manager = $scope.form.fakeManager.displayName==null?'':$scope.form.fakeManager.displayName;
+        }
+
+        $scope.processForm = function(){
+
+            $http({ 
+                            method :  'POST' , 
+                            url :  '/api/test' , 
+                            data :  {'data':$scope.soft}, 
+                            headers :  { 'Content-Type' :  'application/json' } 
+                        }).success(function(data){
+
+                           console.log(data);
+                            console.log(data,'update softMana successfully!');
+
+                        });
         }
 
 
