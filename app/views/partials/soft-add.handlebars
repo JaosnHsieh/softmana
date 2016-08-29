@@ -3,36 +3,45 @@
     <pre>
     {[{soft | json}]}
     </pre>
+    <pre>
+        前端輸入驗證是否通過?
+        {[{softAddForm.$valid}]}
+    </pre>
 
     <!--軟體保管單-->
 
-    <form ng-submit="processForm()">
+    <form name="softAddForm" ng-submit="processForm()" novalidate>
 
         <div class="form-group row">
              <div class="col-sm-2">  
-                <label for="">軟體別</label>
+                <label for="">軟體別<strong class="text-danger">*(必填)</strong></label>
             </div>
-            <div class="col-sm-10">
-                 <select name="softWay" class="form-control" ng-model="soft.SOFT_USE_TYPE" 
-                 ng-options="o.Option_Value as o.Option_Name for o in form.options1">
+            <div class="col-sm-10" ng-class="{ 'has-error' : softAddForm.userType.$invalid && !softAddForm.userType.$pristine }">
+                 <select name="useType" class="form-control has-error has-feedback" ng-model="soft.SOFT_USE_TYPE" 
+                 ng-options="o.Option_Value as o.Option_Name for o in form.options1" ng-required="true">
                     
                 </select>
+                <p ng-show="softAddForm.useType.$invalid && !softAddForm.useType.$pristine" class="help-block">You name is required.</p>
             </div>
             
         </div>
        
         <div class="form-group row">
              <div class="col-sm-2">  
-                <label for="">軟體名稱</label>
+                <label for="">軟體名稱<strong class="text-danger">*(必填)</strong></label>
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-10" ng-class="{ 'has-error' : softAddForm.names.$invalid && !softAddForm.names.$pristine }">
                 <select name="softName" class="form-control" ng-model="name" 
                  ng-options="o.Soft_Name as o.Soft_Name for o in form.options2 | orderBy:'Soft_Name' "
                  ng-change="addMultiNames()">                   
                 </select>
 
-               <textarea ng-model="soft.SOFT_NAME" class="form-control" rows="5"></textarea>
+               <textarea name="names" ng-model="soft.SOFT_NAME" class="form-control" rows="5" ng-required="true"></textarea>
 
+               <div class="alert alert-danger" ng-show="softAddForm.names.$invalid && !softAddForm.names.$pristine">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>軟體名稱 必填</strong>
+               </div>  
                  
             </div>
            
@@ -81,12 +90,11 @@
 
         <div class="form-group row">
              <div class="col-sm-2">  
-                <label for="">使用版別</label>
+                <label for="">使用版別<strong class="text-danger">*(必填)</strong></label>
             </div>
-            <div class="col-sm-6">
-                <select name="userWay" class="form-control" ng-model="soft.SOFT_PRODUCT_TYPE" 
-                 ng-options="o.Option_Value as o.Option_Name for o in form.options3">
-                    
+            <div class="col-sm-6" ng-class="{ 'has-error': softAddForm.softProductType.$invalid && !softAddForm.softProductType.$pristine}">
+                <select name="softProductType" class="form-control" ng-model="soft.SOFT_PRODUCT_TYPE" 
+                 ng-options="o.Option_Value as o.Option_Name for o in form.options3" ng-required="true">                    
                 </select>
             </div>
             <div class="col-sm-4">
@@ -120,11 +128,16 @@
 
         <div class="form-group row">
              <div class="col-sm-2">  
-                <label for="">數量</label>
+                <label for="">數量<strong class="text-danger">*(必填)</strong></label>
             </div>
-            <div class="col-sm-6">
-                <input type="text" class="form-control" ng-model="soft.SOFT_AVALIBLE_COUNT">
+            <div class="col-sm-6" ng-class="{ 'has-error': softAddForm.availbeCount.$invalid && !softAddForm.availbeCount.$pristine}">
+                <input name="availbeCount" type="number" class="form-control" ng-model="soft.SOFT_AVALIBLE_COUNT" ng-required="true">
+                <div class="alert alert-danger" ng-show="softAddForm.availbeCount.$invalid && !softAddForm.availbeCount.$pristine">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>數量 必填 且 只能輸入數字</strong>
+               </div>  
             </div>
+
             <div class="col-sm-4">
                 
             </div>
@@ -132,11 +145,11 @@
 
         <div class="form-group row">
              <div class="col-sm-2">  
-                <label for="">軟體來源</label>
+                <label for="">軟體來源<strong class="text-danger">*(必填)</strong></label>
             </div>
-            <div class="col-sm-10">
-                <select name="soft" class="form-control" ng-model="soft.SOFT_SOURCE_TYPE" 
-                 ng-options="o.Option_Value as o.Option_Name for o in form.options4 | orderBy:'Option_Value'">
+            <div class="col-sm-10" ng-class="{ 'has-error': softAddForm.sourceType.$invalid && !softAddForm.sourceType.$pristine}">
+                <select name="sourceType" class="form-control" ng-model="soft.SOFT_SOURCE_TYPE" 
+                 ng-options="o.Option_Value as o.Option_Name for o in form.options4 | orderBy:'Option_Value'" ng-required="true">
                     
                 </select>
                 <div ng-show="soft.source==7">
@@ -203,10 +216,10 @@
 
         <div class="form-group row">
              <div class="col-sm-2">  
-                <label for="">費用</label>
+                <label for="">費用<strong class="text-danger">*(必填)</strong></label>
             </div>
-            <div class="col-sm-6">
-                <input type="text" class="form-control" ng-model="soft.SOFT_TOTAL_COST">
+            <div class="col-sm-6" ng-class="{ 'has-error': softAddForm.totalCost.$invalid && !softAddForm.totalCost.$pristine}">
+                <input name="totalCost" type="text" class="form-control" ng-model="soft.SOFT_TOTAL_COST" ng-required="true">
             </div>
             <div class="col-sm-4">
             </div>
@@ -224,14 +237,14 @@
         </div>
 
 
-        <div class="form-group row">
+        <div class="form-group row" ng-class="{ 'has-error': softAddForm.startDate.$invalid && !softAddForm.startDate.$pristine}">
              <div class="col-sm-2">  
-                <label for="">啟用日期</label>
+                <label for="">啟用日期<strong class="text-danger">*(必填)</strong></label>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-3" >
                 <datepicker date-format="yyyy/MM/dd" selector="form-control">
                     <div class="input-group">
-                        <input class="form-control" placeholder="選擇日期" ng-model="soft.SOFT_START_DATE"/>
+                        <input name="startDate" ng-required="true" class="form-control" placeholder="選擇日期" ng-model="soft.SOFT_START_DATE"/>
                         <span class="input-group-addon" style="cursor: pointer">
                         <i class="fa fa-lg fa-calendar"></i>
                         </span>
@@ -257,18 +270,18 @@
         <div class="form-group row">
 
                 <div class="col-sm-2">  
-                    <label for="">保管單位</label>
+                    <label for="">保管單位<strong class="text-danger">*(必填)</strong></label>
                 </div>
                 
-                <div class="col-sm-3">
-                    <select name="soft" class="form-control" ng-model="soft.SOFT_OWN_DEP" 
+                <div class="col-sm-3" ng-class="{ 'has-error': softAddForm.ownDep.$invalid && !softAddForm.ownDep.$pristine}">
+                    <select ng-required="true" name="ownDep" class="form-control" ng-model="soft.SOFT_OWN_DEP" 
                     ng-options="o.DEP_NAME as o.DEP_NAME for o in form.options6 | orderBy:'DEP_NO'"
                     ng-change="getOwners((form.options6|filter:{ DEP_NAME:soft.manaDep })[0].DEP_NO)">                   
                     </select>
                 </div>
                     
-                <div class="col-sm-1">
-                    <label for="">保管人</label>
+                <div class="col-sm-2">
+                    <label for="">保管人<strong class="text-danger">*(必填)</strong></label>
                 </div>
 
                 <div class="col-sm-5">
@@ -281,10 +294,9 @@
                             </select>
                         </div>
 
-                        <div class="col-sm-7">
+                        <div class="col-sm-7" ng-class="{ 'has-error': softAddForm.ownUser.$invalid && !softAddForm.ownUser.$pristine}">
                         
-                            <input class="form-control" ng-model="soft.SOFT_OWN_USER"/>
-                        
+                            <input name="ownUser" class="form-control" ng-model="soft.SOFT_OWN_USER" ng-required="true"/>
                         </div>   
 
                     </div>  
@@ -309,15 +321,26 @@
              <div class="col-sm-2">  
             </div>
             <div class="col-sm-8">
-                <input type="submit" style="width:20em; height:5em;" class="btn btn-info" value="新增建檔">
-                    
+                <input ng-disabled="softAddForm.$invalid || spinnerActive" type="submit" style="width:20em; height:5em;" 
+                class="btn btn-primary" value="新增建檔">    <strong class="text-danger">*完成必填欄位才可點擊送出</strong>                
                 </input>
+                <span us-spinner="{radius:30, width:8, length: 16}"></span>
             </div>
             <div class="col-sm-2">
                  
             </div>
         </div>
 
+
+        <!-- 後端驗證測試-->
+
+        <div class="row alert alert-danger" ng-repeat="error in errors">
+
+                {[{ error.msg }]}
+
+        </div>
+        
+        <!--後端驗證測試-->
 
     </form>
 
@@ -346,8 +369,8 @@
             </thead>
 
             <tbody>
-                 <tr ng-repeat="r in changeRecords">
-                    <td>{[{r.date}]}</td>
+                 <tr>
+                    <td></td>
                     <td>{[{}]}</td>
                     <td>{[{}]}</td>
                     <td>{[{}]}</td>

@@ -1,5 +1,5 @@
 // public/core.js
-var app = angular.module('app', ["xeditable","720kb.datepicker"]);
+var app = angular.module('app', ["xeditable","720kb.datepicker","ngLoadingSpinner"]);
 
 // app.controler('mainController',function mainController($scope, $http) {   
 // });
@@ -174,7 +174,7 @@ app.controller('softManaCtrl', function($scope, $filter, $q, $http) {
 
 
 //editable controller - softManaCtrl start
-app.controller('softAddCtrl', function($scope, $filter, $http) {
+app.controller('softAddCtrl', function($scope, $filter, $http , $window) {
     
         //軟體保管單異動
             $scope.changeRecords = [
@@ -286,7 +286,7 @@ app.controller('softAddCtrl', function($scope, $filter, $http) {
 
         //// process form start
         $scope.processForm = function(){
-            console.log('process');
+            console.log('processing form');
 
             $http({ 
                             method :  'POST' , 
@@ -301,14 +301,17 @@ app.controller('softAddCtrl', function($scope, $filter, $http) {
                     $http.get('/api/getCurrentTNO').success(function(data){
 
                         console.log('currentTNO: ',data.TNO);
-
+                        $scope.soft.Soft_ID = 
                         $http({ 
                             method :  'POST' , 
                             url :  '/api/softChange' , 
                             data :  {'data':$scope.soft}, 
                             headers :  { 'Content-Type' :  'application/json' } 
                             }).success(function(data){
-                                console.log(data);
+                                
+                                
+                                // $window.location = '/'
+                                
                             });
 
                         
@@ -316,7 +319,8 @@ app.controller('softAddCtrl', function($scope, $filter, $http) {
 
                 })
                 .error(function(err){
-                    console.log(err);
+                    // console.log(err);
+                    $scope.errors = err;
                     
                 });
         }////process form end
@@ -327,24 +331,23 @@ app.controller('softAddCtrl', function($scope, $filter, $http) {
 
 
 
+        // $scope.removeSoftData = function(index) {
 
-        $scope.removeSoftData = function(index) {
+        //             $http({ 
+        //                     method :  'DELETE' , 
+        //                     url :  '/api/softData' , 
+        //                     data :  {'data':$scope.softData[index]}, 
+        //                     headers :  { 'Content-Type' :  'application/json' } 
+        //                 }).success(function(data){
 
-                    $http({ 
-                            method :  'DELETE' , 
-                            url :  '/api/softData' , 
-                            data :  {'data':$scope.softData[index]}, 
-                            headers :  { 'Content-Type' :  'application/json' } 
-                        }).success(function(data){
+        //                     $scope.softData.splice(index, 1);
+        //                     console.log(data,'update softMana successfully!');
 
-                            $scope.softData.splice(index, 1);
-                            console.log(data,'update softMana successfully!');
-
-                        });
+        //                 });
 
                     
              
-        };
+        // };
 
     
 

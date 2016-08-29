@@ -2,7 +2,9 @@ var express = require('express'),
   router = express.Router(),
   db = require('../models'),
   comm = require('../utility/comm'),
-  moment = require('moment');
+  moment = require('moment'),
+  util = require('util');
+
 
 module.exports = function (app) {
   app.use('/api',isLoggedIn, router);
@@ -141,14 +143,27 @@ router.get('/adViewSSO',function(req,res,next){
 //// softData post start
 router.post('/softData',function(req,res){
   
-  var data = req.body.data;
 
-  console.log(data);
+
+  // input validator start 輸入資料驗證
+  
+  req.checkBody('data.SOFT_NAME', 'Not Empty').notEmpty();
+  req.checkBody('data.SOFT_PRODUCT_VERSION', '產品版本為空').notEmpty();
+  // ..... 還沒寫完全部要驗證的 因為還沒確定要驗證哪些欄位
+   var errors = req.validationErrors();
+   console.log('errors : ', errors);
+  if (errors) {
+    res.status(400).send(errors);
+    return;
+  }
+
+  // input validator end 輸入資料驗證 
 
   var soft_data = db.Soft_Data.build();
 
 
   ////save start
+  var data = req.body.data;
 
   db.Soft_Data.max('RECORD_IN_NO').then(function(max){
     
@@ -160,28 +175,28 @@ router.post('/softData',function(req,res){
       soft_data.SNO = TNO;
       soft_data.SOFT_BATCH_NUM = '';
       soft_data.STATUS_TYPE = '0';
-      soft_data.SOFT_USE_TYPE = data.SOFT_USE_TYPE;
-      soft_data.SOFT_NAME = data.SOFT_NAME;
-      soft_data.SOFT_PRODUCT_VERSION = data.SOFT_PRODUCT_VERSION;
-      soft_data.SOFT_SERIAL_NUMBER = data.SOFT_SERIAL_NUMBER;
-      soft_data.SOFT_FUNCTION_TYPE = data.SOFT_FUNCTION_TYPE;
-      soft_data.SOFT_PRODUCT_TYPE = data.SOFT_PRODUCT_TYPE;
-      soft_data.SOFT_USING_COUNT = data.SOFT_USING_COUNT;
-      soft_data.SOFT_ENVIRONMENT = data.SOFT_ENVIRONMENT;
-      soft_data.SOFT_AVALIBLE_COUNT = data.SOFT_AVALIBLE_COUNT;
-      soft_data.SOFT_SOURCE_TYPE = data.SOFT_SOURCE_TYPE;
-      soft_data.SOFT_SOURCE_TYPE_OTHER = data.SOFT_SOURCE_TYPE_OTHER;
-      soft_data.SOFT_SOURCE_DEP  =  data.SOFT_SOURCE_DEP;
-      soft_data.SOFT_STORE_MEDIA  =  data.SOFT_STORE_MEDIA;
-      soft_data.SOFT_STORE_MEDIA_COUNT  =  data.SOFT_STORE_MEDIA_COUNT;
-      soft_data.SOFT_DOCUMENT  =  data.SOFT_DOCUMENT;
-      soft_data.SOFT_TOTAL_COST  =  data.SOFT_TOTAL_COST;
-      soft_data.SOFT_RENT_COST  =  data.SOFT_RENT_COST;
-      soft_data.SOFT_START_DATE  =  data.SOFT_START_DATE;
-      soft_data.SOFT_COMMENT  =  data.SOFT_COMMENT;
-      soft_data.SOFT_OWN_DEP  =  data.SOFT_OWN_DEP;
-      soft_data.SOFT_OWN_DEPNO = data.SOFT_OWN_DEPNO;
-      soft_data.SOFT_OWN_USER  =  data.SOFT_OWN_USER;
+      soft_data.SOFT_USE_TYPE = data.SOFT_USE_TYPE || '';
+      soft_data.SOFT_NAME = data.SOFT_NAME || '';
+      soft_data.SOFT_PRODUCT_VERSION = data.SOFT_PRODUCT_VERSION || '';
+      soft_data.SOFT_SERIAL_NUMBER = data.SOFT_SERIAL_NUMBER || '';
+      soft_data.SOFT_FUNCTION_TYPE = data.SOFT_FUNCTION_TYPE || '';
+      soft_data.SOFT_PRODUCT_TYPE = data.SOFT_PRODUCT_TYPE || '';
+      soft_data.SOFT_USING_COUNT = data.SOFT_USING_COUNT || '';
+      soft_data.SOFT_ENVIRONMENT = data.SOFT_ENVIRONMENT || '';
+      soft_data.SOFT_AVALIBLE_COUNT = data.SOFT_AVALIBLE_COUNT || '';
+      soft_data.SOFT_SOURCE_TYPE = data.SOFT_SOURCE_TYPE || '';
+      soft_data.SOFT_SOURCE_TYPE_OTHER = data.SOFT_SOURCE_TYPE_OTHER || '';
+      soft_data.SOFT_SOURCE_DEP  =  data.SOFT_SOURCE_DEP || '';
+      soft_data.SOFT_STORE_MEDIA  =  data.SOFT_STORE_MEDIA || '';
+      soft_data.SOFT_STORE_MEDIA_COUNT  =  data.SOFT_STORE_MEDIA_COUNT || '';
+      soft_data.SOFT_DOCUMENT  =  data.SOFT_DOCUMEN || '';
+      soft_data.SOFT_TOTAL_COST  =  data.SOFT_TOTAL_COST || '';
+      soft_data.SOFT_RENT_COST  =  data.SOFT_RENT_COST || '';
+      soft_data.SOFT_START_DATE  =  data.SOFT_START_DATE || '';
+      soft_data.SOFT_COMMENT  =  data.SOFT_COMMENT || '';
+      soft_data.SOFT_OWN_DEP  =  data.SOFT_OWN_DEP || '';
+      soft_data.SOFT_OWN_DEPNO = data.SOFT_OWN_DEPNO || '';
+      soft_data.SOFT_OWN_USER  =  data.SOFT_OWN_USER || '';
       var now = moment().format('YYYY-MM-DD HH:mm:ss.SSS');
       soft_data.CREATE_DATE  =  now;
       soft_data.UPDATE_DATE  =  now;
@@ -197,7 +212,7 @@ router.post('/softData',function(req,res){
       })
       .catch(function(err){
         console.log('err happen ',err);
-        res.send(404).send('insert soft_data error');
+        res.status(404).send('insert soft_data error');
       });
 
     });

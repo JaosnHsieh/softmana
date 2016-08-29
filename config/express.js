@@ -9,6 +9,7 @@ var compress = require('compression');
 var methodOverride = require('method-override');
 var exphbs  = require('express-handlebars');
 var session  = require('express-session');
+var expressValidator = require('express-validator')
 
 module.exports = function(app, config) {
   var env = process.env.NODE_ENV || 'development';
@@ -29,6 +30,7 @@ module.exports = function(app, config) {
   app.use(bodyParser.urlencoded({
     extended: true
   }));
+  app.use(expressValidator());
   app.use(cookieParser());
   app.use(compress());
   app.use(express.static(config.root + '/public'));
