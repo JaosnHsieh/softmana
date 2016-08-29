@@ -261,9 +261,9 @@ app.controller('softAddCtrl', function($scope, $filter, $http) {
             
             $scope.soft.SOFT_OWN_DEPNO = depno;
 
-            $http.get('/api/adViewSSO?department='+$scope.soft.manaDep)               
+            $http.get('/api/adViewSSO?department='+$scope.soft.SOFT_OWN_DEP)               
                     .success(function(data) {
-                    
+                    console.log(data);
                     delete $scope.soft.manager;
 
                     $scope.form.options7 = data;
@@ -281,23 +281,45 @@ app.controller('softAddCtrl', function($scope, $filter, $http) {
 
         $scope.updateRealManager = function(){
             
-            $scope.soft.manager = $scope.form.fakeManager.displayName==null?'':$scope.form.fakeManager.displayName;
+            $scope.soft.SOFT_OWN_USER = $scope.form.fakeManager.displayName==null?'':$scope.form.fakeManager.displayName;
         }
 
+        //// process form start
         $scope.processForm = function(){
+            console.log('process');
 
             $http({ 
                             method :  'POST' , 
-                            url :  '/api/test' , 
+                            url :  '/api/softData' , 
                             data :  {'data':$scope.soft}, 
                             headers :  { 'Content-Type' :  'application/json' } 
-                        }).success(function(data){
+                })
+                .success(function(data){
 
-                           console.log(data);
-                            console.log(data,'update softMana successfully!');
+                    console.log(data);
 
+                    $http.get('/api/getCurrentTNO').success(function(data){
+
+                        console.log('currentTNO: ',data.TNO);
+
+                        $http({ 
+                            method :  'POST' , 
+                            url :  '/api/softChange' , 
+                            data :  {'data':$scope.soft}, 
+                            headers :  { 'Content-Type' :  'application/json' } 
+                            }).success(function(data){
+                                console.log(data);
+                            });
+
+                        
                         });
-        }
+
+                })
+                .error(function(err){
+                    console.log(err);
+                    
+                });
+        }////process form end
 
 
 

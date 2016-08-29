@@ -14,14 +14,14 @@ module.exports ={
 
         // 要加上流水號 從Soft_Data table 找出目前最大流水號  -> 若目前沒有 就給他 0001
         db.Soft_Data.max('SNO',{ where: { SNO:{ $like:TNO+'%' } } }).then(function(maxSNO){
-            
+           
             if(maxSNO==null){
                 TNO = TNO + '0001';
                 callback(TNO);
             }
             else{
                  //105S080002
-                var sequNum = parseInt(maxSNO.substring(6,10),4); //前面的0會不見 ex. 0012 變成 12 
+                var sequNum = parseInt(maxSNO.substring(6,10)); //前面的0會不見 ex. 0012 變成 12 
                 sequNum++;
                 sequNum = sequNum.toString();
                 var pad = "0000";

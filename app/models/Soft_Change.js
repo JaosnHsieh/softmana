@@ -4,7 +4,9 @@ module.exports = function(sequelize, DataTypes) {
   return sequelize.define('Soft_Change', {
     RECORD_IN_NO: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
     },
     TRANS_IN_NO: {
       type: 'NCHAR',

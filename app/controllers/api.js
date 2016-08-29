@@ -138,45 +138,50 @@ router.get('/adViewSSO',function(req,res,next){
 
 
 
-
-router.post('/test',function(req,res){
+//// softData post start
+router.post('/softData',function(req,res){
   
   var data = req.body.data;
 
   console.log(data);
 
   var soft_data = db.Soft_Data.build();
+
+
+  ////save start
+
   db.Soft_Data.max('RECORD_IN_NO').then(function(max){
     
-    soft_data.RECORD_IN_NO = max+1;
-    
-    comm.getFormNum('S',function(TNO){
+    soft_data.RECORD_IN_NO = max+1; //
 
+    comm.getFormNum('S',function(TNO){
+      global.TNO = TNO;
+      global.RECORD_IN_NO = soft_data.RECORD_IN_NO;
       soft_data.SNO = TNO;
       soft_data.SOFT_BATCH_NUM = '';
       soft_data.STATUS_TYPE = '0';
-      soft_data.SOFT_USE_TYPE = data.diff;
-      soft_data.SOFT_NAME = data.names;
-      soft_data.SOFT_PRODUCT_VERSION = data.version;
-      soft_data.SOFT_SERIAL_NUMBER = data.serialNum;
-      soft_data.SOFT_FUNCTION_TYPE = data.functions;
-      soft_data.SOFT_PRODUCT_TYPE = data.usingVersion;
-      soft_data.SOFT_USING_COUNT = data.usingNum;
-      soft_data.SOFT_ENVIRONMENT = data.usingEnv;
-      soft_data.SOFT_AVALIBLE_COUNT = data.numbers;
-      soft_data.SOFT_SOURCE_TYPE = data.source;
-      soft_data.SOFT_SOURCE_TYPE_OTHER = data.otherSource;
-      soft_data.SOFT_SOURCE_DEP  =  data.sourceDep;
-      soft_data.SOFT_STORE_MEDIA  =  data.softStorage;
-      soft_data.SOFT_STORE_MEDIA_COUNT  =  data.storageNum;
-      soft_data.SOFT_DOCUMENT  =  data.relatedNamesAndNum;
-      soft_data.SOFT_TOTAL_COST  =  data.expense;
-      soft_data.SOFT_RENT_COST  =  data.monthMoney;
-      soft_data.SOFT_START_DATE  =  data.startDate;
-      soft_data.SOFT_COMMENT  =  data.comment;
-      soft_data.SOFT_OWN_DEP  =  data.manaDep;
+      soft_data.SOFT_USE_TYPE = data.SOFT_USE_TYPE;
+      soft_data.SOFT_NAME = data.SOFT_NAME;
+      soft_data.SOFT_PRODUCT_VERSION = data.SOFT_PRODUCT_VERSION;
+      soft_data.SOFT_SERIAL_NUMBER = data.SOFT_SERIAL_NUMBER;
+      soft_data.SOFT_FUNCTION_TYPE = data.SOFT_FUNCTION_TYPE;
+      soft_data.SOFT_PRODUCT_TYPE = data.SOFT_PRODUCT_TYPE;
+      soft_data.SOFT_USING_COUNT = data.SOFT_USING_COUNT;
+      soft_data.SOFT_ENVIRONMENT = data.SOFT_ENVIRONMENT;
+      soft_data.SOFT_AVALIBLE_COUNT = data.SOFT_AVALIBLE_COUNT;
+      soft_data.SOFT_SOURCE_TYPE = data.SOFT_SOURCE_TYPE;
+      soft_data.SOFT_SOURCE_TYPE_OTHER = data.SOFT_SOURCE_TYPE_OTHER;
+      soft_data.SOFT_SOURCE_DEP  =  data.SOFT_SOURCE_DEP;
+      soft_data.SOFT_STORE_MEDIA  =  data.SOFT_STORE_MEDIA;
+      soft_data.SOFT_STORE_MEDIA_COUNT  =  data.SOFT_STORE_MEDIA_COUNT;
+      soft_data.SOFT_DOCUMENT  =  data.SOFT_DOCUMENT;
+      soft_data.SOFT_TOTAL_COST  =  data.SOFT_TOTAL_COST;
+      soft_data.SOFT_RENT_COST  =  data.SOFT_RENT_COST;
+      soft_data.SOFT_START_DATE  =  data.SOFT_START_DATE;
+      soft_data.SOFT_COMMENT  =  data.SOFT_COMMENT;
+      soft_data.SOFT_OWN_DEP  =  data.SOFT_OWN_DEP;
       soft_data.SOFT_OWN_DEPNO = data.SOFT_OWN_DEPNO;
-      soft_data.SOFT_OWN_USER  =  data.manager;
+      soft_data.SOFT_OWN_USER  =  data.SOFT_OWN_USER;
       var now = moment().format('YYYY-MM-DD HH:mm:ss.SSS');
       soft_data.CREATE_DATE  =  now;
       soft_data.UPDATE_DATE  =  now;
@@ -185,7 +190,15 @@ router.post('/test',function(req,res){
       soft_data.SOFT_APPLICATION_USER  =  'testtest';
       soft_data.SOFT_APP_USERNO  =  '1111111111111';
 
-      soft_data.save();
+      soft_data.save()
+      .then(function(savedOne){
+        console.log('insert soft_data successfully');
+        res.status(200).send('successfully insert into soft_data');
+      })
+      .catch(function(err){
+        console.log('err happen ',err);
+        res.send(404).send('insert soft_data error');
+      });
 
     });
     
@@ -193,14 +206,43 @@ router.post('/test',function(req,res){
 
   });
 
+  //// save done.
+  
 
 
+});//// softData post done
 
+
+router.post('/softChange',function(req,res){
+
+    var data = req.body.data;
+    var soft_change = db.Soft_Change.build();
+
+        soft_change.Soft_ID = global.RECORD_IN_NO;
+        soft_change.APPLICATION_DATE = data.SOFT_START_DATE;
+        soft_change.SOFT_OWN_DEP = data.SOFT_OWN_DEP;
+        soft_change.SOFT_OWN_USER = data.SOFT_OWN_USER;
+        soft_change.SOFT_USING_DEP = data.SOFT_APPLICATION_DEP;
+        soft_change.SOFT_USING_USER = data.SOFT_APPLICATION_USER;
+        soft_change.SOFT_NOW_PRODUCT_VERSION = data.SOFT_PRODUCT_VERSION;
+        soft_change.SOFT_NOW_TOTAL = data.SOFT_TOTAL_COST;
+        soft_change.AMT = data.SOFT_AVALIBLE_COUNT;
+        soft_change.SOURCE = data.SOFT_SOURCE_DEP;
+        soft_change.UPDATE_DATE = moment().format('YYYY-MM-DD HH:mm:ss.SSS');
+    
+    soft_change.save()
+    .then(function(data){
+      res.status(200).send('soft_change inserted successfully');
+    })
+    .catch(function(err){
+      console.log('err',err);
+    });
 
 });
 
-
-
+router.get('/getCurrentTNO',function(req,res){
+  res.json({TNO:global.TNO});
+});
 
 
 
