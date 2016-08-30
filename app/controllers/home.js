@@ -74,6 +74,39 @@ router.get('/Soft/Soft_Add.aspx',isLoggedIn,function(req,res,next){
 });
 
 
+router.get('/Soft/Soft_prn1.aspx',isLoggedIn,function(req,res,next){
+
+    var RECORD_IN_NO = req.query.entry;
+
+    function IsNumeric(input)
+      {
+          return (input - 0) == input && (''+input).trim().length > 0;
+      }
+    
+    var entryArr = RECORD_IN_NO.split(',');
+    var softDataQueryData = [];
+        for(no in entryArr){
+            softDataQueryData.push({"RECORD_IN_NO": entryArr[no]});
+        }
+    console.log(softDataQueryData);
+      
+
+    db.Soft_Data.findAll(
+          {
+            where:{ $or: softDataQueryData }
+          }
+         
+        ).then(function(data){
+         res.json(data);
+        }); 
+
+
+});
+
+
+
+
+
   
 router.get('/logout.aspx',function(req,res){
 

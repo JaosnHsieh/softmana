@@ -244,7 +244,7 @@
             <div class="col-sm-3" >
                 <datepicker date-format="yyyy/MM/dd" selector="form-control">
                     <div class="input-group">
-                        <input name="startDate" ng-required="true" class="form-control" placeholder="選擇日期" ng-model="soft.SOFT_START_DATE"/>
+                        <input ng-pattern="regexdate" name="startDate" ng-required="true" class="form-control" placeholder="選擇日期" ng-model="soft.SOFT_START_DATE"/>
                         <span class="input-group-addon" style="cursor: pointer">
                         <i class="fa fa-lg fa-calendar"></i>
                         </span>

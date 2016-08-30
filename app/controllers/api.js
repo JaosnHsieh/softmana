@@ -145,19 +145,19 @@ router.post('/softData',function(req,res){
   
 
 
-  // input validator start 輸入資料驗證
+  // // input validator start 輸入資料驗證
   
-  req.checkBody('data.SOFT_NAME', 'Not Empty').notEmpty();
-  req.checkBody('data.SOFT_PRODUCT_VERSION', '產品版本為空').notEmpty();
-  // ..... 還沒寫完全部要驗證的 因為還沒確定要驗證哪些欄位
-   var errors = req.validationErrors();
-   console.log('errors : ', errors);
-  if (errors) {
-    res.status(400).send(errors);
-    return;
-  }
+  // req.checkBody('data.SOFT_NAME', 'Not Empty').notEmpty();
+  // req.checkBody('data.SOFT_PRODUCT_VERSION', '產品版本為空').notEmpty();
+  // // ..... 還沒寫完全部要驗證的 因為還沒確定要驗證哪些欄位
+  //  var errors = req.validationErrors();
+  //  console.log('errors : ', errors);
+  // if (errors) {
+  //   res.status(400).send(errors);
+  //   return;
+  // }
 
-  // input validator end 輸入資料驗證 
+  // // input validator end 輸入資料驗證 
 
   var soft_data = db.Soft_Data.build();
 

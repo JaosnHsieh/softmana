@@ -22,18 +22,26 @@
    <table class="table  table-hover table-condensed">
        <thead class="thead-inverse">
             <tr style="font-weight: bold">
-            <td class="col-sm-1">軟體編號</td> 
-            <td class="col-sm-4">軟體名稱</td> 
-            <td class="col-sm-2">保管單位</td>
-            <td class="col-sm-1">保管人</td>
-            <td class="col-sm-2">啟用日期</td>
-            <td class="col-sm-2">控制項</td>
+
+                <td class="col-sm-1"></td>
+                <td class="col-sm-1">軟體編號</td> 
+                <td class="col-sm-3">軟體名稱</td> 
+                <td class="col-sm-2">保管單位</td>
+                <td class="col-sm-1">保管人</td>
+                <td class="col-sm-2">啟用日期</td>
+                <td class="col-sm-2">控制項</td>
             
             </tr>
         </thead>
 
+        <button class="btn btn-default" ng-click="selectAll()">全選</button>
+        <button class="btn btn-default" ng-click="printAll()">批次列印</button>
+
     <tr ng-repeat="data in softData">
       
+        <td>
+            <input type="checkbox" ng-model="selection.ids[data.RECORD_IN_NO]" name="group" />
+        </td>
         <td>{[{ data.SNO==null? data.SOFT_BATCH_NUM :data.SNO }]} </td>
         <td> {[{data.SOFT_NAME}]} </td>
         <td> {[{data.SOFT_OWN_DEP}]} </td>
@@ -42,7 +50,7 @@
         <td>
             <div class="btn-group">
                 <button class="btn btn-info">增加</button>
-                <button class="btn btn-info">檢閱</button>
+                <button class="btn btn-info" ng-click="moveToSoftPrn1(data.RECORD_IN_NO)">檢閱</button>
             </div>
             
         </td>

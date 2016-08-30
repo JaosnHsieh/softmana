@@ -93,8 +93,42 @@ app.controller('softDataCtrl', function($scope, $filter, $q, $http) {
 
 
 //editable controller - softManaCtrl start
-app.controller('softManaCtrl', function($scope, $filter, $q, $http) {
+app.controller('softManaCtrl', function($scope, $filter, $q, $http,$window) {
 
+
+    $scope.selection ={  ////給chcekbox選擇用的資料
+        ids:{}
+    };
+    $scope.toggleSelect = false;
+
+    $scope.selectAll = function(){ 
+        if($scope.toggleSelect==false){ ////toggle all selection
+                 for(var d in $scope.softData){
+                    $scope.selection.ids[$scope.softData[d].RECORD_IN_NO]=true ;
+                    $scope.toggleSelect = true;
+                }  
+        }
+        else{
+                for(var d in $scope.softData){
+                    $scope.selection.ids[$scope.softData[d].RECORD_IN_NO]=false ;
+                    $scope.toggleSelect = false;
+                }    
+        }
+        
+        
+    }
+
+
+    $scope.printAll = function(){
+        if(Object.keys($scope.selection.ids)<1){}
+        else{
+            $window.location = '/Soft/Soft_prn1.aspx?entry='+Object.keys($scope.selection.ids).toString();
+        }
+    
+    }
+
+    
+    //// loading softDatas 
     $http.get('/api/softData').success(function(data) {
             $scope.softData = data;
             console.log('load softData successfully!');
@@ -102,15 +136,15 @@ app.controller('softManaCtrl', function($scope, $filter, $q, $http) {
             .error(function(data){
             });
 
-    $scope.test = function(data){
-        console.log(data);
+    $scope.moveToSoftPrn1 = function(data){
+        $window.location = '/Soft/Soft_prn1.aspx?entry='+data;
     };
 
-    $scope.softDatas = [];
+    // $scope.softDatas = [];
 
-    $scope.loadSoftData = function() {
+    // $scope.loadSoftData = function() {
         
-        };
+    //     };
 
 
     $scope.removeSoftData = function(index) {
@@ -175,7 +209,10 @@ app.controller('softManaCtrl', function($scope, $filter, $q, $http) {
 
 //editable controller - softManaCtrl start
 app.controller('softAddCtrl', function($scope, $filter, $http , $window) {
-    
+
+        //// 日期格式的regex
+        $scope.regexdate =/((^((1[8-9]\d{2})|([2-9]\d{3}))([-\/\._])(10|12|0?[13578])([-\/\._])(3[01]|[12][0-9]|0?[1-9])$)|(^((1[8-9]\d{2})|([2-9]\d{3}))([-\/\._])(11|0?[469])([-\/\._])(30|[12][0-9]|0?[1-9])$)|(^((1[8-9]\d{2})|([2-9]\d{3}))([-\/\._])(0?2)([-\/\._])(2[0-8]|1[0-9]|0?[1-9])$)|(^([2468][048]00)([-\/\._])(0?2)([-\/\._])(29)$)|(^([3579][26]00)([-\/\._])(0?2)([-\/\._])(29)$)|(^([1][89][0][48])([-\/\._])(0?2)([-\/\._])(29)$)|(^([2-9][0-9][0][48])([-\/\._])(0?2)([-\/\._])(29)$)|(^([1][89][2468][048])([-\/\._])(0?2)([-\/\._])(29)$)|(^([2-9][0-9][2468][048])([-\/\._])(0?2)([-\/\._])(29)$)|(^([1][89][13579][26])([-\/\._])(0?2)([-\/\._])(29)$)|(^([2-9][0-9][13579][26])([-\/\._])(0?2)([-\/\._])(29)$))/;
+
         //軟體保管單異動
             $scope.changeRecords = [
                 {date:'123' , name:'myname'},
