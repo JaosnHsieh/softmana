@@ -1,0 +1,301 @@
+<div ng-controller="TransPrn1Ctrl">
+   
+   <!--<pre> softApply {[{softApply | json}]} </pre>
+   <pre> mixData {[{mixData | json}]} </pre>-->
+   
+   <h1 class="text-center">衛生福利部</h1>
+   <h1 class="text-center">{[{ header }]}</h1>
+   <div style="margin:8px;text-align:left;width:100%">單號：{[{ softApply.FNO }]}</div>
+   <table border="1" width="100%" bordercolor="#000000" cellpadding="4">
+      <tr>
+         <td width="150">軟體編號</td>
+         <td colspan="3">{[{ mixData.data2.SS }]}</td>
+      </tr>
+      <tr>
+         <td width="150">軟體名稱</td>
+         <td colspan="3">{[{mixData.data2.SOFT_NAME}]}</td>
+      </tr>
+      <tr>
+         <td width="150">啟用日期</td>
+         <td colspan="3" width="480">{[{mixData.data2.SOFT_START_DATE.substring(0,10)}]}</td>
+      </tr>
+      <tr>
+         <td width="150" style="border-bottom: double 3px #000">費用</td>
+         <td colspan="3" style="border-bottom: double 3px #000">{[{mixData.data3.pay==null?mixData.thisAMT:mixData.data3.pay+mixData.thisAMT}]}</td>
+      </tr>
+      <tr>
+         <td colspan="4">
+            <br>處理日期：{[{ mixData.serverDate}]}<br>
+            <table border="0" cellpadding="4">
+               <tr>
+                  <td style="width:60px;text-align:right;" align="right">申　請<br>單　位</td>
+                  <td style="width:120px">：{[{ softApply.USING_DEP }]}</td>
+                  <td style="width:60px;text-align:right;" align="right">{[{ unitType }]}<br>單　位</td>
+                  <td style="width:120px">：{[{softApply.OWN_DEP}]}</td>
+                  <td style="width:60px;text-align:right;" align="right">使　用<br>單　位</td>
+                  <td>：{[{ softApply.USING_DEP }]}</td>
+               </tr>
+               <tr>
+                  <td style="width:60px;text-align:right;" align="center">填表人</td>
+                  <td style="width:120px">：{[{softApply.Creat_UName}]}</td>
+                  <td style="width:60px;text-align:right;" align="center">保管人</td>
+                  <td style="width:120px">：{[{ softApply.OWN_USER }]}</td>
+                  <td style="width:60px;text-align:right;" align="center">使用人</td>
+                  <td>：{[{ softApply.USING_USER }]}</td>
+               </tr>
+               <tr>
+                  <td style="width:60px;text-align:right;" align="center">版　本</td>
+                  <td style="width:120px">：{[{ softApply.Version }]}</td>
+                  <td style="width:60px;text-align:right;" align="center">取　得<br>費　用</td>
+                  <td style="width:120px">：{[{ softApply.Cost }]}</td>
+                  <td style="width:60px;text-align:right;" align="center">增　減<br>數　量</td>
+                  <td>：{[{ softApply.AMT }]}</td>
+               </tr>
+               <tr>
+                  <td style="width:60px;text-align:right;" align="center">取　得<br>來　源</td>
+                  <td style="width:120px">：{[{softApply.Source}]}</td>
+                  <td style="width:60px;text-align:right;" align="center">備　註</td>
+                  <td colspan="4">：{[{softApply.Memo}]}</td>
+               </tr>
+            </table>
+         </td>
+      </tr>
+      <tr>
+         <td colspan="4">
+            <table border="0" cellpadding="4">
+               <tr>
+                  <td style="width:60px;text-align:right;" align="right">申　請<br>單　位<br>核　章</td>
+                  <td>：</td>
+               </tr>
+            </table>
+         </td>
+      </tr>
+      <tr>
+         <td colspan="4">
+            <table border="0" cellpadding="4">
+               <tr>
+                  <td style="width:60px;text-align:right;" align="right">承　辦<br>單　位<br>核　章</td>
+                  <td>：</td>
+               </tr>
+            </table>
+         </td>
+      </tr>
+      <tr>
+         <td colspan="4">&nbsp;<br><br><br><br><br><br><br><br><br></td>
+      </tr>
+   </table>
+   <div class="foot">附註：本單存軟體管理單位，另影印一份歸檔。<br /></div>
+   <div style="text-align:center">
+      <div class="h1">衛生福利部<br>軟體保管單(原軟體增加)</div>
+      <table border="1" width="100%" bordercolor="#000000">
+         <tr>
+            <td style="line-height:33px;">處理日期</td>
+            <td>保管單位</td>
+            <td>保管人　</td>
+            <td>使用單位</td>
+            <td>使用人</td>
+            <td>版本</td>
+            <td>取得費用</td>
+            <td>數量</td>
+            <td>來源</td>
+            <td>備註</td>
+         </tr>
+         <tr>
+            <td style="line-height:33px;">2004/3/30</td>
+            <td>資訊處</td>
+            <td>吳○莊</td>
+            <td>資訊中心</td>
+            <td>○</td>
+            <td></td>
+            <td align="right">581,000</td>
+            <td>1</td>
+            <td></td>
+            <td></td>
+         </tr>
+         <tr>
+            <td style="line-height:33px;">2016/8/31</td>
+            <td>資訊處</td>
+            <td>吳○莊</td>
+            <td>資訊中心</td>
+            <td>○</td>
+            <td>1</td>
+            <td align="right">1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+         </tr>
+         <tr>
+            <td style="line-height:33px;">　&nbsp;</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+         </tr>
+         <tr>
+            <td style="line-height:33px;">　&nbsp;</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+         </tr>
+         <tr>
+            <td style="line-height:33px;">　&nbsp;</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+         </tr>
+         <tr>
+            <td style="line-height:33px;">　&nbsp;</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+         </tr>
+         <tr>
+            <td style="line-height:33px;">　&nbsp;</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+         </tr>
+         <tr>
+            <td style="line-height:33px;">　&nbsp;</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+         </tr>
+         <tr>
+            <td style="line-height:33px;">　&nbsp;</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+         </tr>
+         <tr>
+            <td style="line-height:33px;">　&nbsp;</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+         </tr>
+         <tr>
+            <td style="line-height:33px;">　&nbsp;</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+         </tr>
+         <tr>
+            <td style="line-height:33px;">　&nbsp;</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+         </tr>
+         <tr>
+            <td style="line-height:33px;">　&nbsp;</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+         </tr>
+         <tr>
+            <td style="line-height:33px;">　&nbsp;</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+         </tr>
+         <tr>
+            <td style="line-height:33px;">　&nbsp;</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+         </tr>
+         <tr>
+            <td style="line-height:33px;">　&nbsp;</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+            <td>　</td>
+         </tr>
+         <tr>
+            <td style="line-height:33px;" colspan="6" align="right">　費用總計</td>
+            <td colspan="4" align="left" >581,001</td>
+         </tr>
+      </table>
+   </div>
+</div>

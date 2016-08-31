@@ -1,0 +1,83 @@
+<div ng-controller="TransAdd2Ctrl">
+
+
+    <div class="text-center">
+        <h1>軟體增加申請單<h1>
+    </div>
+
+
+
+    <div id="softAddTable">
+        
+            <div class="row">
+                    <div class="row text-center"><h3>衛生福利部</h3></div>
+                    <div class="row text-center"><h3>軟體保管單 (原軟體增加)</h3></div>
+                    <div class="row text-left">
+                        <div class="col-sm-12"> 單號:123</div>                   
+                    </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">軟體編號</div>
+                <div class="col-sm-8">{[{ softData.SNO }]} ( 舊: {[{ softData.SOFT_BATCH_NUM}]}  )</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">軟體名稱</div>
+                <div class="col-sm-8">{[{ softData.SOFT_NAME }]}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">啟用日期</div>
+                <div class="col-sm-8">{[{ softData.SOFT_START_DATE.substring(0,10) }]}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">總費用</div>
+                <div class="col-sm-8">{[{ softData.SOFT_TOTAL_COST }]}</div>
+            </div>
+            <div class="row">
+                <div class="row">&nbsp;</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">處理日期: </div>
+                 <div class="col-sm-4">
+                    <datepicker date-format="yyyy/MM/dd" selector="form-control">
+                        <div class="input-group">
+                            <input ng-pattern="regexdate" name="startDate" ng-required="true" class="form-control" placeholder="選擇日期" ng-model="soft.SOFT_START_DATE"/>
+                            <span class="input-group-addon" style="cursor: pointer">
+                            <i class="fa fa-lg fa-calendar"></i>
+                            </span>
+                        </div>
+                    </datepicker>
+                  
+                  </div>   
+                    
+                
+            </div>
+            <div class="row">
+                <div class="col-sm-4">申請單位</div>
+                <div class="col-sm-4">保管單位 : {[{softData.SOFT_OWN_DEP}]}</div>
+                <div class="col-sm-4">使用單位 : {[{softData.SOFT_APPLICATION_DEP}]}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">填表人 : {[{    }]}</div>
+                <div class="col-sm-4">保管人 : {[{ softData.SOFT_OWN_USER }]}</div>
+                <div class="col-sm-4">使用人 : {[{ softData.SOFT_APPLICATION_USER }]}</div>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm-4">
+                            版本: <input type="text" ng-model="softApply.Version">
+                </div>
+            
+                <div class="col-sm-4">取得費用: <input type="text" ng-model="softApply.Cost"></div>
+                <div class="col-sm-4">增減數量: <input type="text" ng-model="softApply.AMT"></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">取得來源<input type="text" ng-model="softApply.Source"></div>
+                <div class="col-sm-6">備註<input type="text" ng-model="softApply.Memo"></div>
+            </div>
+                
+    </div>
+    <div class="row text-center">        
+        <buttn class="btn btn-lg btn-primary" ng-click="saveAndMove()"> 儲存後預覽列印 </button>
+    </div>
+
+</div>

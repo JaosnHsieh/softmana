@@ -104,7 +104,17 @@ router.get('/Soft/Soft_prn1.aspx',isLoggedIn,function(req,res,next){
 });
 
 
+router.get('/Apply/Trans_Add2.aspx',function(req,res){
+    var RECORD_IN_NO = req.query.soft;
 
+    res.render('Trans_Add2');
+});
+
+router.get('/Apply/Trans_prn1.aspx',function(req,res){
+    var RECORD_IN_NO = req.query.entry;
+
+    res.render('Trans_prn1');
+});
 
 
   
@@ -115,9 +125,9 @@ router.get('/logout.aspx',function(req,res){
 
 });
 
-router.get('*',function(rqe,res){
-  res.redirect('/');
-});
+// router.get('*',function(rqe,res){
+//   res.redirect('/');
+// });
 
 
 

@@ -7,24 +7,40 @@ var express = require('express'),
 
 
 module.exports = function (app) {
-  app.use('/api',isLoggedIn, router);
+  app.use('/api', router);
 };
+
 
 router.get('/softData', function (req, res, next) {
   db.Soft_Data.removeAttribute('id'); // don't want an "id" column for this table
 
+  if(req.query.recordInNo){
 
-  db.Soft_Data.findAll({
+    db.Soft_Data.findAll({
+      where : { RECORD_IN_NO:  req.query.recordInNo }
+    })
+      
+      .then(function(data){
+
+          res.json(data);
+    });
+  
+}
+
+  else{
+        db.Soft_Data.findAll({
     // attributes: ['SOFT_NAME', 'STATUS_TYPE'],
-    where:{ STATUS_TYPE:1 , 
-            SOFT_OWN_USER: {$like: '%蕭%'  }
-          },
-    order: '"CREATE_DATE" DESC'
-  }).then(function (data) {
-    
-    res.json(data);
-    
-  });
+          where:{ STATUS_TYPE:1 , 
+                  SOFT_OWN_USER: {$like: '%蕭%'  }
+                },
+          order: '"CREATE_DATE" DESC'
+        }).then(function (data) {
+          
+          res.json(data);
+          
+        });
+  }
+  
 
 });
 
@@ -208,7 +224,7 @@ router.post('/softData',function(req,res){
       soft_data.save()
       .then(function(savedOne){
         console.log('insert soft_data successfully');
-        res.status(200).send('successfully insert into soft_data');
+        res.status(200).json({RECORD_IN_NO:savedOne.RECORD_IN_NO});
       })
       .catch(function(err){
         console.log('err happen ',err);
@@ -260,7 +276,90 @@ router.get('/getCurrentTNO',function(req,res){
 });
 
 
+//soft apply
 
+router.get('/softApply',function(req,res){
+      var idNo = req.query.entry;
+
+      db.Soft_Apply.findOne({
+        where : { IDNo : idNo}
+      })
+      .then(function(data){
+          res.json(data);         
+      });
+
+});
+
+
+router.post('/softApply',function(req,res){
+   
+    var softApplyForSave = db.Soft_Apply.build();
+
+    var softApply = req.body.softApply;
+    var softData = req.body.softData;
+
+      softApplyForSave.FType = 4;
+      comm.getFormNum('F',function(TNO){
+          
+      softApplyForSave.FNO = TNO;
+      softApplyForSave.OWN_DEP = softData.SOFT_OWN_DEP;
+      softApplyForSave.OWN_USER = softData.SOFT_OWN_USER;
+      softApplyForSave.USING_DEP = softData.SOFT_APPLICATION_DEP;
+      softApplyForSave.USING_USER = softData.SOFT_APPLICATION_USER;
+      softApplyForSave.Version = softApply.Version;
+      softApplyForSave.Cost = softApply.Cost;
+      softApplyForSave.AMT = softApply.AMT;
+      softApplyForSave.Source = softApply.Source;
+      softApplyForSave.Memo = softApply.Memo;
+      softApplyForSave.Status = 10;
+      softApplyForSave.Creat_User = 'test'; 
+      softApplyForSave.Creat_UName = 'test';
+      softApplyForSave.Creat_DEP = 'test';
+
+      });
+
+
+    softApplyForSave.save()
+    .then(function(data){
+      res.status(200).json(data);
+    })
+    .catch(function(err){
+      console.log('err',err);
+    });
+});
+
+router.get('/TransPrn1Ctrl',function(req,res){
+
+      db.Soft_Apply_Soft.findOne({
+        where : { Apply_ID : req.query.entry }
+      })
+        .then(function(data){
+            
+            db.Soft_Data.findOne({
+              where : { RECORD_IN_NO: data.Soft_ID }
+            }).then(function(data2){
+                
+                data2.dataValues.SS = data2.SNO==null?data2.SOFT_BATCH_NUM:data2.SNO; 
+
+                  db.sequelize.query("Select Sum(Cast(replace(replace(SOFT_NOW_TOTAL,'.00',''),',','') as int)) as pay from Soft_Change where ISNUMERIC(SOFT_NOW_TOTAL)=1 and Soft_ID=419 and APP_TYPE in (1,4)", { type: db.sequelize.QueryTypes.SELECT})
+                    .then(function(data3) {
+                                        
+                            db.Soft_Apply.findOne({
+                               where : { IDNo: req.query.entry }
+                            }).then(function(data4){
+
+                                var thisAMT = data4.status==20?0:data4.Cost;
+                                res.json({data2:data2,data3:data3[0],thisAMT:thisAMT,serverDate:moment().format('YYYY-MM-DD HH:mm:ss.SSS')}); 
+                            
+                          });
+                                        
+
+                    });
+            });
+         
+        });
+});
+//soft apply end
 
 
 

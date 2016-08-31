@@ -1,5 +1,11 @@
+//
+window.c= console.log;
+//
 // public/core.js
 var app = angular.module('app', ["xeditable","720kb.datepicker","ngLoadingSpinner"]);
+app.config(['$locationProvider', function($locationProvider){
+    $locationProvider.html5Mode(true);    
+}]);
 
 // app.controler('mainController',function mainController($scope, $http) {   
 // });
@@ -139,6 +145,10 @@ app.controller('softManaCtrl', function($scope, $filter, $q, $http,$window) {
     $scope.moveToSoftPrn1 = function(data){
         $window.location = '/Soft/Soft_prn1.aspx?entry='+data;
     };
+    
+    $scope.moveToTrans_Add2 = function(data){
+        $window.location = '/Apply/Trans_Add2.aspx?soft='+data;
+    }
 
     // $scope.softDatas = [];
 
@@ -331,14 +341,13 @@ app.controller('softAddCtrl', function($scope, $filter, $http , $window) {
                             data :  {'data':$scope.soft}, 
                             headers :  { 'Content-Type' :  'application/json' } 
                 })
-                .success(function(data){
+                .success(function(softData){
 
-                    console.log(data);
+                        
 
                     $http.get('/api/getCurrentTNO').success(function(data){
 
-                        console.log('currentTNO: ',data.TNO);
-                        $scope.soft.Soft_ID = 
+                        
                         $http({ 
                             method :  'POST' , 
                             url :  '/api/softChange' , 
@@ -347,7 +356,7 @@ app.controller('softAddCtrl', function($scope, $filter, $http , $window) {
                             }).success(function(data){
                                 
                                 
-                                // $window.location = '/'
+                                $window.location = '/Soft/Soft_prn1.aspx?entry='+softData.RECORD_IN_NO;
                                 
                             });
 
@@ -394,13 +403,68 @@ app.controller('softAddCtrl', function($scope, $filter, $http , $window) {
 //// softmana ctrl end
 
 
+//// TransAdd2Ctrl start
+app.controller('TransAdd2Ctrl', function mainController($scope, $http,$location,$window) {
+        $scope.softData = {};
+        $scope.softApply = {};
+        var RECORD_IN_NO = $location.search().soft;//query from url
+        
+        // loading softdata 
+        $http.get('/api/softData?recordInNo='+RECORD_IN_NO) 
+            .success(function(data){
+                $scope.softData = data[0];
+            })
+            .error(function(err){
+                c('err : ',err);
+            });
+        
+        //save button
+        $scope.saveAndMove = function(){
+
+            $http.post('/api/softApply',{ softApply:$scope.softApply , softData:$scope.softData })
+                .success(function(data){
+                    // $window.location = './Apply/Trans_prn1.aspx?entry='+data.IDNo;
+                    $window.location = '/Apply/Trans_prn1.aspx?entry=1289';
+                })
+                .error(function(err){
+                    c(err);
+                });
+        }
+});
 
 
+////TransAdd2Ctrl end
 
 
+//// TransPrn1Ctrl 
+app.controller('TransPrn1Ctrl', function mainController($scope, $http,$location,$window) {
+    
+    $scope.unitType = '';
+    $scope.header = '';
 
+    $http.get('/api/softApply?entry='+$location.search().entry)
+        .success(function(data){
+            $scope.softApply = data;
 
+            if($scope.softApply.FType==4){ 
+                $scope.header = '軟體保管單 (原軟體增加)';
+                $scope.unitType = "保　管";
+            }
+            else if($scope.softApply.FType==2){ 
+                $scope.header = '軟體移轉申請單';
+                $scope.unitType = "移　入";
+             }
+        });
 
+    $http.get('/api/TransPrn1Ctrl?entry='+$location.search().entry)
+        .success(function(data){
+            data.serverDate = parseInt(data.serverDate.substring(0,5))-1911 +'年'+ data.serverDate.substring(5,7)+'月'+data.serverDate.substring(8,10)+'日'; 
+            $scope.mixData = data;
+            c(data);
+        });
+
+});
+//// TransPrn1Ctrl end
 
 
 

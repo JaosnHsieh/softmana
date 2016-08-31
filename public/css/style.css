@@ -88,5 +88,29 @@
   }
 }
 .table tbody tr:hover td, .table tbody tr:hover th {
-    background-color: #a5c6f7;
+    /*background-color: #a5c6f7;*/
+}
+#softAddTable .row{
+  font-size:1.3em;
+  font-weight:700;
+  border:1px solid;
+  width:700px;
+  margin:0 auto;
+}
+#softAddTable input{
+  width:100%;
+}
+
+#softAddTable .row + .row{
+  border-top:0;
+}
+
+#softAddTable .row > .row {
+  border:0;
+}
+
+#softAddTable [class^=col-sm] {
+
+  border:1px solid #ddd;
+  /*background-color:#ddd;*/
 }
