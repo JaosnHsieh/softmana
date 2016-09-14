@@ -4,8 +4,9 @@ module.exports = function(sequelize, DataTypes) {
   return sequelize.define('Soft_Apply_Soft', {
     IDNo: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      autoIncrement: true,
       primaryKey: true
+      
     },
     Apply_ID: {
       type: DataTypes.INTEGER,

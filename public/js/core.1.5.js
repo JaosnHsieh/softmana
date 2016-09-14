@@ -421,10 +421,11 @@ app.controller('TransAdd2Ctrl', function mainController($scope, $http,$location,
         //save button
         $scope.saveAndMove = function(){
 
-            $http.post('/api/softApply',{ softApply:$scope.softApply , softData:$scope.softData })
+            $http.post('/api/softApply',{ softApply:$scope.softApply , softData:$scope.softData , RECORD_IN_NO:RECORD_IN_NO })
                 .success(function(data){
+                    // c(data);
                     // $window.location = './Apply/Trans_prn1.aspx?entry='+data.IDNo;
-                    $window.location = '/Apply/Trans_prn1.aspx?entry=1289';
+                    $window.location = '/Apply/Trans_prn1.aspx?entry='+data.IDNo;
                 })
                 .error(function(err){
                     c(err);

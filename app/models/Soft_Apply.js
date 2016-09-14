@@ -105,6 +105,6 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     }
   }, {
-    tableName: 'Soft_Apply'
+    tableName: 'Soft_Apply',
   });
 };

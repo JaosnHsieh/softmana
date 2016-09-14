@@ -297,35 +297,63 @@ router.post('/softApply',function(req,res){
 
     var softApply = req.body.softApply;
     var softData = req.body.softData;
+    var recordInNo = req.body.RECORD_IN_NO;
 
       softApplyForSave.FType = 4;
-      comm.getFormNum('F',function(TNO){
+      comm.getFormNum('A',function(TNO){
           
-      softApplyForSave.FNO = TNO;
-      softApplyForSave.OWN_DEP = softData.SOFT_OWN_DEP;
-      softApplyForSave.OWN_USER = softData.SOFT_OWN_USER;
-      softApplyForSave.USING_DEP = softData.SOFT_APPLICATION_DEP;
-      softApplyForSave.USING_USER = softData.SOFT_APPLICATION_USER;
-      softApplyForSave.Version = softApply.Version;
-      softApplyForSave.Cost = softApply.Cost;
-      softApplyForSave.AMT = softApply.AMT;
-      softApplyForSave.Source = softApply.Source;
-      softApplyForSave.Memo = softApply.Memo;
-      softApplyForSave.Status = 10;
-      softApplyForSave.Creat_User = 'test'; 
-      softApplyForSave.Creat_UName = 'test';
-      softApplyForSave.Creat_DEP = 'test';
+        softApplyForSave.FNO = TNO;
+        softApplyForSave.OWN_DEP = softData.SOFT_OWN_DEP;
+        softApplyForSave.OWN_USER = softData.SOFT_OWN_USER;
+        softApplyForSave.USING_DEP = softData.SOFT_APPLICATION_DEP;
+        softApplyForSave.USING_USER = softData.SOFT_APPLICATION_USER;
+        softApplyForSave.Version = softApply.Version;
+        softApplyForSave.Cost = softApply.Cost;
+        softApplyForSave.AMT = softApply.AMT;
+        softApplyForSave.Source = softApply.Source;
+        softApplyForSave.Memo = softApply.Memo;
+        softApplyForSave.Status = 10;
+        softApplyForSave.Creat_Date = moment().format('YYYY-MM-DD HH:mm:ss.SSS');
+        softApplyForSave.Creat_User = 'test'; 
+        softApplyForSave.Creat_UName = 'test';
+        softApplyForSave.Creat_DEP = 'test';
+
+        // res.status(200).json(softApplyForSave);
+
+        softApplyForSave.save()
+        .then(function(savedSoftApply){
+
+            db.Soft_Apply.max('IDNo',{
+              where: { 
+               // Creat_User : session(User_ID) ////testtest
+              }
+            }).then(function(IDNo){
+
+              c('--------------------IDNO---------',IDNo);
+              // var softApplySoft = db.Soft_Apply_Soft.build();
+              // softApplySoft.Apply_ID = softData.Apply_ID;
+              // softApplySoft.Soft_ID = softData.RECORD_IN_NO;
+              // c('softData ',softData);
+
+              // softApplySoft.save()
+              //   .then(function(data){
+              //     c('savedApplySoft: ',data);
+              //   });
+
+            });
+          
+          
+          res.status(200).json(savedSoftApply);
+        
+      
+        })
+        .catch(function(err){
+          console.log('err',err);
+        });
 
       });
 
-
-    softApplyForSave.save()
-    .then(function(data){
-      res.status(200).json(data);
-    })
-    .catch(function(err){
-      console.log('err',err);
-    });
+      
 });
 
 router.get('/TransPrn1Ctrl',function(req,res){
@@ -334,6 +362,8 @@ router.get('/TransPrn1Ctrl',function(req,res){
         where : { Apply_ID : req.query.entry }
       })
         .then(function(data){
+            
+            c('---------soft apply soft------------' , data);
             
             db.Soft_Data.findOne({
               where : { RECORD_IN_NO: data.Soft_ID }
